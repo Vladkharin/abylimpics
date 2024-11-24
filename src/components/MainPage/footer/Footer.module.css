@@ -1,0 +1,39 @@
+.footer {
+  background: #eef3f5;
+  padding: 25px 0;
+}
+
+.h3 {
+  font-family: Jost;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 40.46px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+}
+
+.container {
+  width: 1390px;
+  margin: 0 auto;
+}
+
+.container > p {
+  margin: 25px 0;
+  font-family: Jost;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 34.68px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+}
+
+.container > p > span {
+  color: #0540f2;
+}
+
+.container > p > span > a {
+  text-decoration: none;
+  color: #0540f2;
+}
