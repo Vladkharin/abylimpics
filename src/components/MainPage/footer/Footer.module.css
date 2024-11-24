@@ -37,3 +37,33 @@
   text-decoration: none;
   color: #0540f2;
 }
+
+@media (max-width: 1439px) {
+  .container {
+    width: 1180px;
+  }
+}
+
+@media (max-width: 1199px) {
+  .container {
+    width: 952px;
+  }
+}
+
+@media (max-width: 992px) {
+  .container {
+    width: 727px;
+  }
+}
+
+@media (max-width: 767px) {
+  .container {
+    width: 440px;
+  }
+}
+
+@media (max-width: 479px) {
+  .container {
+    width: 300px;
+  }
+}

@@ -191,3 +191,100 @@
 .certificates_wrapper > div > img {
   width: 100%;
 }
+
+@media (max-width: 1439px) {
+  .container {
+    width: 1180px;
+  }
+
+  .h1 {
+    font-size: 58px;
+  }
+}
+
+@media (max-width: 1199px) {
+  .container {
+    width: 952px;
+  }
+
+  .h1 {
+    font-size: 46px;
+  }
+
+  .h2 {
+    font-size: 28px;
+  }
+
+  .achievements > p {
+    font-size: 24px;
+  }
+
+  .achievements > button {
+    width: 240px;
+  }
+}
+
+@media (max-width: 992px) {
+  .container {
+    width: 727px;
+  }
+
+  .h1 {
+    font-size: 36px;
+  }
+
+  .h2 {
+    font-size: 20px;
+  }
+
+  .achievements > button {
+    height: auto;
+  }
+
+  .achievements > p {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 767px) {
+  .container {
+    width: 440px;
+  }
+
+  .h1 {
+    font-size: 20px;
+    line-height: 2;
+  }
+
+  .h2 {
+    font-size: 16px;
+    line-height: 2;
+  }
+
+  .achievements > p {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 479px) {
+  .container {
+    width: 300px;
+  }
+
+  .h1 {
+    font-size: 14px;
+  }
+
+  .h2 {
+    font-size: 11px;
+  }
+
+  .achievements {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .achievements > p {
+    text-align: center;
+  }
+}
