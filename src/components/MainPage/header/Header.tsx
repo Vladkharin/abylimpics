@@ -14,7 +14,9 @@ export function Header() {
           <div className={styles.container}>
             <div className={styles.main_information_wrapper}>
               <div className={styles.logo}>
-                <img src="./assets/icons/logo.png" alt="" />
+                <a href="">
+                  <img src="./assets/icons/logo.svg" alt="" />
+                </a>
               </div>
               <nav className={styles.nav}>
                 <a href="">Основные сведения</a>
