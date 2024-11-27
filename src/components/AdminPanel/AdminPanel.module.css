@@ -1,0 +1,18 @@
+.adminPanel {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.adminPanel > form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.adminPanel > form > label {
+  display: flex;
+  flex-direction: column;
+}

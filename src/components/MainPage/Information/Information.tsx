@@ -1,8 +1,22 @@
 import { useState } from "react";
 import styles from "./Information.module.css";
 
-export function Information() {
+export function Information({ certificates }: { certificates: string[] }) {
   const [stateMenu, setStateMenu] = useState(false);
+
+  function Certificates() {
+    return (
+      <div className={styles.certificates_wrapper}>
+        {certificates.map((certificate: string, index: number) => {
+          return (
+            <div key={index}>
+              <img src={"./assets/img/" + certificate} alt="" />
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
   return (
     <section>
       <div className={styles.container}>
@@ -58,14 +72,7 @@ export function Information() {
 
         <div className={styles.certificates}>
           <h3 className={styles.h3}>Наши сертификаты о работе</h3>
-          <div className={styles.certificates_wrapper}>
-            <div>
-              <img src="./assets/img/first_certificate.jpg" alt="" />
-            </div>
-            <div>
-              <img src="./assets/img/second_certificate.jpg" alt="" />
-            </div>
-          </div>
+          <Certificates />
         </div>
       </div>
     </section>
