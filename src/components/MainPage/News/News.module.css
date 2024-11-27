@@ -101,24 +101,10 @@
   height: auto;
   display: flex;
   justify-content: space-between;
-  background: #ffffff;
   border-radius: 20px;
   align-items: center;
   padding: 30px 35px;
-  transition: all 0.5s ease-in-out;
-}
-
-.main_information {
-  margin-top: 45px;
-  width: 100%;
-  height: auto;
-  display: flex;
-  justify-content: space-between;
-  background: #e4ebf9;
-  border-radius: 20px 20px 0 0;
-  align-items: center;
-  padding: 30px 35px;
-  transition: all 0.5s ease-in-out;
+  transition: all 0.5s 0.5s;
 }
 
 .main_information > p {
@@ -135,17 +121,14 @@
   background: none;
   border: none;
   cursor: pointer;
-  transition: all 1s ease-in-out;
 }
 
 .main_information > button {
-  transition: all 1s ease-in-out;
 }
 
 .main_information_hide {
   height: auto;
   background: #e4ebf9;
-  transition: all 1s ease-in-out;
   opacity: 0;
   padding: 35px;
   padding-top: 0;
@@ -154,7 +137,6 @@
 
 .main_information_show {
   height: auto;
-  transition: all 1s ease-in-out;
   background: #e4ebf9;
   border-radius: 0 0 20px 20px;
   opacity: 1;
@@ -164,11 +146,13 @@
 }
 
 .descr_wrapper_hide {
-  display: none;
+  opacity: 0;
+  height: 0;
 }
 
 .descr_wrapper_show {
-  display: block;
+  opacity: 1;
+  height: auto;
 }
 
 .descr {
