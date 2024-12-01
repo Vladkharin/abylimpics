@@ -3,22 +3,31 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { MainPage } from "./components/MainPage/MainPage";
 import { AdminPanel } from "./components/AdminPanel/AdminPanel";
 
-export type DATA = {
-  mainPage: {
-    cerificates: string[];
-    news: {
-      img: string;
-      date: string;
-      descr: string;
+export type MAINPAGE = {
+  certificates: string[];
+  news: {
+    img: string;
+    date: string;
+    descr: string;
+  }[];
+  secondMenu: {
+    title: string;
+    menu: {
+      highlighted: string;
+      sentence: string;
     }[];
-    secondMenu: {
-      title: string;
-      menu: {
-        highlighted: string;
-        sentence: string;
-      }[];
-    };
   };
+  thirdMenu: {
+    title: string;
+    menu: {
+      highlighted: string;
+      sentence: string;
+    }[];
+  };
+};
+
+export type DATA = {
+  mainPage: MAINPAGE;
 };
 
 export default function App() {

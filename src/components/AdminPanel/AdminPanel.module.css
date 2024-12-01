@@ -6,13 +6,30 @@
   align-items: center;
 }
 
-.adminPanel > form {
+.button_wrapper {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  gap: 20px;
+  justify-content: center;
+  align-items: start;
 }
 
-.adminPanel > form > label {
+.cerificates_wrapper {
   display: flex;
-  flex-direction: column;
+  height: 200px;
+  flex-wrap: wrap;
+}
+
+.cerificates_wrapper > div > img {
+  height: 100%;
+}
+
+.cerificates_wrapper > div {
+  height: 100%;
+  position: relative;
+}
+
+.cerificates_wrapper > div > button {
+  position: absolute;
+  bottom: -20px;
+  right: 0;
 }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import styles from "./Authorization.module.css";
 
 type PROPS = {
   auth: boolean;
@@ -40,7 +41,7 @@ export function Authorization({ auth, setAuth }: PROPS) {
   });
 
   return (
-    <form style={{ display: auth ? "none" : "flex" }} onSubmit={(event) => handleSubmit(event)}>
+    <form className={styles.form} style={{ display: auth ? "none" : "flex" }} onSubmit={(event) => handleSubmit(event)}>
       <label>
         <p>Введите логин</p>
         <input type="text" name={"login"} onChange={(event) => handleChange(event)} />
