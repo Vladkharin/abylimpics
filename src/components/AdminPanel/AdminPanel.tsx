@@ -48,7 +48,7 @@ export function AdminPanel() {
               {data.mainPage.certificates.map((item, index) => (
                 <div key={index}>
                   <img src={"./assets/img/" + item} alt="certificates" />
-                  <button onClick={(event) => deleteCertificates(index, event, data, setData, "mainPage", "certificates")}> Удалить</button>
+                  <button onClick={(event) => deleteCertificates(index, event, data, setData)}> Удалить</button>
                 </div>
               ))}
             </div>
@@ -59,35 +59,21 @@ export function AdminPanel() {
   );
 }
 
-function editData(
-  data: DATA,
-  setData: React.Dispatch<React.SetStateAction<DATA | undefined>>,
-  index: number,
-  page: string,
-  subparagraph: string
-) {
-  const mainPage: MAINPAGE = data.mainPage;
-
-  mainPage.certificates = data.mainPage.certificates.splice(index, 1);
-
-  console.log(data.mainPage.certificates);
-  console.log(index);
-
-  setData({ ...data, mainPage: mainPage });
-
-  console.log({ ...data, mainPage: mainPage });
+function editCertificates(data: DATA, setData: React.Dispatch<React.SetStateAction<DATA | undefined>>, index: number) {
+  setData({
+    ...data,
+    mainPage: { ...data.mainPage, certificates: data.mainPage.certificates.filter((certificate, indexEl) => indexEl != index) },
+  });
 }
 async function deleteCertificates(
   index: number,
   event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   data: DATA,
-  setData: React.Dispatch<React.SetStateAction<DATA | undefined>>,
-  page: string,
-  key: string
+  setData: React.Dispatch<React.SetStateAction<DATA | undefined>>
 ) {
   event.preventDefault();
 
-  return editData(data, setData, index, page, key);
+  return editCertificates(data, setData, index);
 
   // const object = {
   //   index: index,
