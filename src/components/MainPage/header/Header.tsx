@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
+import { DATA } from "../../../App";
 
-export function Header() {
+export function Header({ data }: { data: DATA }) {
   return (
     <header className={styles.header}>
       <div className={styles.wrapper}>
@@ -18,26 +20,25 @@ export function Header() {
                   <img src="./assets/icons/logo.svg" alt="" />
                 </a>
               </div>
-              <nav className={styles.nav}>
-                <a href="">Основные сведения</a>
-                <a href="">Региональный чемпионат «Абилимпикс»</a>
-                <a href="">Национальный чемпионат «Абилимпикс»</a>
-                <a href="">Межчемпионатные мероприятия</a>
-                <a href="">Трудоустройство</a>
-                <a href="">Добровольчество «Абилимпикс»</a>
-                <a href="">Региональный центр обучения экспертов «Абилимпикс»</a>
-                <a href="">Партнеры</a>
-                <a href="">Горячая линия</a>
-                <a href="">Молодежное содружество «Абилимпикс»</a>
-                <a href="">Новости</a>
-                <a href="">Галерея</a>
-                <a href="">Истории успеха участников «Абилимпикс» Оренбургской области</a>
-              </nav>
+              <Nav data={data} />
+
               <div className={styles.main_information_inner}></div>
             </div>
           </div>
         </div>
       </div>
     </header>
+  );
+}
+
+function Nav({ data }: { data: DATA }) {
+  return (
+    <nav className={styles.nav}>
+      {data.mainPage.paragraphs.map((item: { name: string; link: string }, index: number) => (
+        <Link key={index} to={`/${item.link}`}>
+          {item.name}
+        </Link>
+      ))}
+    </nav>
   );
 }

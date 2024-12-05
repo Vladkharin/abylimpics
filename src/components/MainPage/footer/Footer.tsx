@@ -28,8 +28,8 @@ export function Footer() {
             <a href="mailto:oatkbvn@esoo.ru">oatkbvn@esoo.ru</a>
           </span>
         </p>
-        <p>© 2019-2023 gapou-oatk.ru</p>
       </div>
+      <div className={styles.downText}>© 2019-2023 gapou-oatk.ru</div>
     </footer>
   );
 }

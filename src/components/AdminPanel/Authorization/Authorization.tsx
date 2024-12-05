@@ -31,7 +31,7 @@ export function Authorization({ auth, setAuth }: PROPS) {
   async function f() {
     const response = await fetch("./data/data.json");
 
-    const data = response.json();
+    const data = await response.json();
 
     return data;
   }

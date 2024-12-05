@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./AdminPanel.module.css";
 import { Authorization } from "./Authorization/Authorization";
-import { DATA, MAINPAGE } from "../../App";
+import { DATA } from "../../App";
 
 export function AdminPanel() {
   const [auth, setAuth] = useState(false);
@@ -12,7 +12,7 @@ export function AdminPanel() {
   async function f() {
     const response = await fetch("./data/data.json");
 
-    const data = response.json();
+    const data = await response.json();
 
     return data;
   }
@@ -48,7 +48,9 @@ export function AdminPanel() {
               {data.mainPage.certificates.map((item, index) => (
                 <div key={index}>
                   <img src={"./assets/img/" + item} alt="certificates" />
-                  <button onClick={(event) => deleteCertificates(index, event, data, setData)}> Удалить</button>
+                  <form onSubmit={(event) => deleteCertificates(index, event, data, setData)}>
+                    <button type="submit"> Удалить</button>
+                  </form>
                 </div>
               ))}
             </div>
@@ -59,32 +61,33 @@ export function AdminPanel() {
   );
 }
 
-function editCertificates(data: DATA, setData: React.Dispatch<React.SetStateAction<DATA | undefined>>, index: number) {
-  setData({
+function editCertificates(data: DATA, index: number) {
+  return (data = {
     ...data,
     mainPage: { ...data.mainPage, certificates: data.mainPage.certificates.filter((certificate, indexEl) => indexEl != index) },
   });
 }
 async function deleteCertificates(
   index: number,
-  event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  event: React.FormEvent<HTMLFormElement>,
   data: DATA,
   setData: React.Dispatch<React.SetStateAction<DATA | undefined>>
 ) {
   event.preventDefault();
 
-  return editCertificates(data, setData, index);
+  const dataEl: DATA = editCertificates(data, index);
 
-  // const object = {
-  //   index: index,
-  //   group: "mainPage",
-  // };
+  setData({ ...dataEl });
 
-  // const response = await fetch("./phpFiles/delete.php", {
-  //   method: "POST",
-  //   body: JSON.stringify(object),
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  // });
+  const response = await fetch("delete.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ data: dataEl }),
+  });
+
+  const dataRequest = await response.json();
+
+  console.log(dataRequest);
 }

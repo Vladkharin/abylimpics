@@ -1,6 +1,20 @@
 .footer {
   background: #eef3f5;
-  padding: 25px 0;
+  padding: 25px 0 0 0;
+}
+
+.downText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  background: #000000;
+  font-family: Jost;
+  font-size: 20px;
+  font-weight: 500;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: #ffffff;
 }
 
 .h3 {

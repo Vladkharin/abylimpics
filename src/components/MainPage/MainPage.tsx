@@ -30,10 +30,9 @@ export function MainPage() {
     return;
   }
 
-  console.log(data);
   return (
     <>
-      <Header />
+      <Header data={data} />
       <Information certificates={data.mainPage.certificates} />
       <News news={data.mainPage.news} secondMenu={data.mainPage.secondMenu} thirdMenu={data.mainPage.thirdMenu} />
       <Footer />
