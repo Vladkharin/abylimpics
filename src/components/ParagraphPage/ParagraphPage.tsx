@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import { Link } from "react-router-dom";
 import { DATA, PARAGRAPHS } from "../../App";
 import { Header } from "./header/Header";
 import styles from "./ParagraphPage.module.css";
@@ -87,7 +86,7 @@ export function ParagraphPage() {
                 url = "./assets/docs/";
                 return (
                   <a className={styles.text} key={index} href={url + item}>
-                    {item.split(".")[0]}
+                    {index + 1}. {item.split(".")[0]}
                   </a>
                 );
               } else if (arr[arr.length - 1] == "pdf") {
@@ -95,23 +94,22 @@ export function ParagraphPage() {
 
                 return (
                   <a className={styles.text} key={index} href={url + item}>
-                    {item.split(".")[0]}
+                    {index + 1}. {item.split(".")[0]}
                   </a>
                 );
               } else if (arr[0].indexOf("https") != -1) {
                 return (
                   <a className={styles.text} key={index} href={item}>
-                    {item}
+                    {index + 1}. {item}
                   </a>
                 );
               } else {
                 const arr1 = item.split(":");
-                console.log(arr1);
 
                 if (arr1.length > 1) {
                   return arr1.map((item, index) => (
                     <div className={styles.text} key={index} style={{ marginTop: index == 0 ? "15px" : "0" }}>
-                      {arr1[index]}
+                      {item}
                       {index == 0 ? ":" : ""}
                     </div>
                   ));

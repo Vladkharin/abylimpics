@@ -16,9 +16,9 @@ export function Header({ data }: { data: DATA }) {
           <div className={styles.container}>
             <div className={styles.main_information_wrapper}>
               <div className={styles.logo}>
-                <a href="">
+                <Link to={"/"}>
                   <img src="./assets/icons/logo.svg" alt="" />
-                </a>
+                </Link>
               </div>
               <Nav data={data} />
 

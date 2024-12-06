@@ -64,7 +64,12 @@ export function AdminPanel() {
 function editCertificates(data: DATA, index: number) {
   return (data = {
     ...data,
-    mainPage: { ...data.mainPage, certificates: data.mainPage.certificates.filter((certificate, indexEl) => indexEl != index) },
+    mainPage: {
+      ...data.mainPage,
+      certificates: data.mainPage.certificates.filter(
+        (certificate, indexEl) => indexEl != index && data.mainPage.certificates[index] == certificate
+      ),
+    },
   });
 }
 async function deleteCertificates(
