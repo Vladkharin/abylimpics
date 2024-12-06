@@ -33,7 +33,7 @@ export type MAINPAGE = {
 
 export type PARAGRAPHS = {
   name: string;
-  subparagraphs: { title: string; name: string; content: string[] }[];
+  subparagraphs: { title: string; name: string; content: { name: string; link?: string }[] }[];
 }[];
 
 export type DATA = {

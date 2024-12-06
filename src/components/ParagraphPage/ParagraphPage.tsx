@@ -75,36 +75,39 @@ export function ParagraphPage() {
         <div className={styles.container}>
           <div className={styles.content_wrapper}>
             {activeParagraph[0].subparagraphs[activeTab].content.map((item, index) => {
-              const arr = item.split(".");
-              let url = "";
-              if (
-                arr[arr.length - 1] == "doc" ||
-                arr[arr.length - 1] == "docx" ||
-                arr[arr.length - 1] == "xls" ||
-                arr[arr.length - 1] == "xlsx"
-              ) {
-                url = "./assets/docs/";
-                return (
-                  <a className={styles.text} key={index} href={url + item}>
-                    {index + 1}. {item.split(".")[0]}
-                  </a>
-                );
-              } else if (arr[arr.length - 1] == "pdf") {
-                url = "./assets/pdf/";
+              if (item.link) {
+                const arr = item.link.split(".");
+                console.log(arr);
+                let url = "";
+                if (
+                  arr[arr.length - 1] == "doc" ||
+                  arr[arr.length - 1] == "docx" ||
+                  arr[arr.length - 1] == "xls" ||
+                  arr[arr.length - 1] == "xlsx"
+                ) {
+                  url = "./assets/docs/";
+                  return (
+                    <a className={styles.text} key={index} href={url + item.link}>
+                      {index + 1}. {item.name}
+                    </a>
+                  );
+                } else if (arr[arr.length - 1] == "pdf") {
+                  url = "./assets/pdf/";
 
-                return (
-                  <a className={styles.text} key={index} href={url + item}>
-                    {index + 1}. {item.split(".")[0]}
-                  </a>
-                );
-              } else if (arr[0].indexOf("https") != -1) {
-                return (
-                  <a className={styles.text} key={index} href={item}>
-                    {index + 1}. {item}
-                  </a>
-                );
+                  return (
+                    <a className={styles.text} key={index} href={url + item.link}>
+                      {index + 1}. {item.name}
+                    </a>
+                  );
+                } else if (arr[0].indexOf("https") != -1) {
+                  return (
+                    <a className={styles.text} key={index} href={item.link}>
+                      {index + 1}. {item.name}
+                    </a>
+                  );
+                }
               } else {
-                const arr1 = item.split(":");
+                const arr1 = item.name.split(":");
 
                 if (arr1.length > 1) {
                   return arr1.map((item, index) => (
