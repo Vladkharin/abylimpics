@@ -62,12 +62,15 @@ export function AdminPanel() {
 }
 
 function editCertificates(data: DATA, index: number) {
+  console.log(
+    data.mainPage.certificates.filter((certificate, indexEl) => indexEl != index && data.mainPage.certificates[index] != certificate)
+  );
   return (data = {
     ...data,
     mainPage: {
       ...data.mainPage,
       certificates: data.mainPage.certificates.filter(
-        (certificate, indexEl) => indexEl != index && data.mainPage.certificates[index] == certificate
+        (certificate, indexEl) => indexEl != index && data.mainPage.certificates[index] != certificate
       ),
     },
   });
@@ -84,12 +87,16 @@ async function deleteCertificates(
 
   setData({ ...dataEl });
 
+  const formData = new FormData();
+
+  formData.append("data", JSON.stringify(dataEl));
+
   const response = await fetch("delete.php", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json; charset=UTF-8",
     },
-    body: JSON.stringify({ data: dataEl }),
+    body: JSON.stringify({ a: 10, b: 20 }),
   });
 
   const dataRequest = await response.json();

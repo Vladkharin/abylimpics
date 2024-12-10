@@ -94,10 +94,15 @@ export function ParagraphPage() {
                 } else if (arr[arr.length - 1] == "pdf") {
                   url = "./assets/pdf/";
 
+                  console.log(url + item.link);
+
                   return (
-                    <a className={styles.text} key={index} href={url + item.link}>
-                      {index + 1}. {item.name}
-                    </a>
+                    <>
+                      <div className={styles.text}>
+                        {index}. {item.name}
+                      </div>
+                      <iframe src={url + item.link} height={800} width={"100%"}></iframe>
+                    </>
                   );
                 } else if (arr[0].indexOf("https") != -1) {
                   return (
