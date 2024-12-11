@@ -150,14 +150,15 @@
       { "name": "Национальный чемпионат «Абилимпикс»", "link": "National_Championship" },
       { "name": "Межчемпионатные мероприятия", "link": "Inter-championship_events" },
       { "name": "Трудоустройство", "link": "Employment" },
-      { "name": "Добровольчество «Абилимпикс»", "link": " Volunteering" },
+      { "name": "Добровольчество «Абилимпикс»", "link": "Volunteering" },
       { "name": "Региональный центр обучения экспертов «Абилимпикс»", "link": "Regional_Center_for_Expert_Training" },
       { "name": "Партнеры", "link": "Partners" },
       { "name": "Горячая линия", "link": "Hotline" },
       { "name": "Молодежное содружество «Абилимпикс»", "link": "Youth_Commonwealth" },
       { "name": "Новости", "link": "News" },
       { "name": "Галерея", "link": "Gallery" },
-      { "name": "Истории успеха участников «Абилимпикс» Оренбургской области", "link": "Success_stories_of_participants" }
+      { "name": "Истории успеха участников «Абилимпикс» Оренбургской области", "link": "Success_stories_of_participants" },
+      { "name": "Рубрики", "link": "Categories" }
     ]
   },
   "paragraphs": [
@@ -276,8 +277,229 @@
             },
             { "name": "Программа VII регионального чемпионата Абилимпикс", "link": "27.pdf", "type": "pdf" },
             { "name": "Программа VI регионального чемпионата", "link": "26.pdf", "type": "pdf" },
-            { "name": "Программа III регионального чемпионата", "link": "25.pdf", "type": "pdf" }
+            { "name": "Программа III регионального чемпионата", "link": "25.pdf", "type": "pdf" },
+            { "name": "Даты проведения", "link": "8.doc", "type": "doc" },
+            { "name": "Инструкция_регистрации_участника_Абилимпикса_1", "link": "28.pdf", "type": "pdf" },
+            { "name": "Информация о Фестивале возможностей", "link": "9.doc", "type": "doc" },
+            { "name": "Информация о Фестивале знакомства с професс", "link": "10.doc", "type": "doc" },
+            { "name": "Отчет РЧА_2018", "link": "11.xlsx", "type": "doc" },
+            { "name": "Отчет РЧА_2019", "link": "12.xlsx", "type": "doc" },
+            { "name": "Отчет РЧА_2020", "link": "13.xlsx", "type": "doc" },
+            { "name": "Отчет РЧА_2021", "link": "14.xlsx", "type": "doc" },
+            { "name": "Отчет РЧА_2022", "link": "15.xlsx", "type": "doc" },
+            { "name": "Отчет РЧА_2023", "link": "16.xlsx", "type": "doc" },
+            { "name": "Отчет РЧА_2024", "link": "17.xlsx", "type": "doc" },
+            { "name": "Конкурсные задания", "link": "https://abilympics-russia.ru/competencies/y2024/?type=4", "type": "link" },
+            { "name": "Фестивали", "link": "https://abilympics-russia.ru/docs/", "type": "link" },
+            { "name": "Как стать участником", "link": "https://abilympics-russia.ru/contests/way/", "type": "link" }
           ]
+        },
+        {
+          "title": "Реестр экспертов",
+          "name": "Register of experts",
+          "content": [
+            {
+              "name": "Реестр региональных экспертов 2024",
+              "link": "18.xls",
+              "type": "doc"
+            },
+            {
+              "name": "Перечень национальных экспертов «Абилимпикс»",
+              "link": "https://abilympics-russia.ru/contests/nationalexperts/",
+              "type": "link"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "/National_Championship",
+      "subparagraphs": [
+        {
+          "name": "Information about the National Abilympics Championship",
+          "title": "Информация о Национальном чемпионате Абилимпикс",
+          "content": [
+            { "name": "Победители НЧ от Оренбургской области", "link": "19.doc", "type": "doc" },
+            {
+              "name": "Перечень основных компетенций национального чемпионата",
+              "link": "https://abilympics-russia.ru/competencies/y2024/?type=1",
+              "type": "link"
+            }
+          ]
+        },
+        {
+          "name": "Implementation of electronic certificates for NCHA winners",
+          "title": "Реализация электронных сертификатов победителей НЧА",
+          "content": [
+            {
+              "name": "Абилипикс Электронные Сертификаты",
+              "link": "29.pdf",
+              "type": "pdf"
+            },
+            {
+              "name": "О механизмах реализации ЭС",
+              "link": "30.pdf",
+              "type": "pdf"
+            },
+            {
+              "name": "Данные по вопросам консультирования",
+              "link": "https://abilympics-russia.ru/certificates/",
+              "type": "link"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "/Inter-championship_events",
+      "subparagraphs": [
+        {
+          "name": "Career guidance, sports, cultural events",
+          "title": "Профориентационные, спортивные, культурные мероприятия",
+          "content": [
+            {
+              "name": "План проведения межчемпионатных мероприятий 2024 г.НЦ",
+              "link": "20.xls",
+              "type": "doc"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "/Employment",
+      "subparagraphs": [
+        {
+          "name": "A card index of in-demand professions taking into account the regional labor market",
+          "title": "Картотека востребованных профессий с учетом регионального рынка труда",
+          "content": []
+        },
+        {
+          "name": "Job Search Resources",
+          "title": "Ресурсы по поиску работы",
+          "content": []
+        },
+        {
+          "name": "Information on employment of participants of the Abilympics movement in the Orenburg region",
+          "title": "Информация о трудоустройстве участников движения Абилимпикс в Оренбургской области",
+          "content": []
+        }
+      ]
+    },
+    {
+      "name": "/Volunteering",
+      "subparagraphs": [
+        {
+          "title": "Информация о центре добровольчества Абилимпикс",
+          "name": "Information about the Abilimpix Volunteering Center",
+          "content": [
+            {
+              "name": "Сайт Цент добровольчества «Абилимпикс» в Оренбургской области",
+              "link": "https://dobro.ru/organizations/10102706/info",
+              "type": "link"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "/Regional_Center_for_Expert_Training",
+      "subparagraphs": [
+        {
+          "title": "Информация о региональном центре обучения экспертов Абилимпикс",
+          "name": "Information about the regional center for training experts Abilympics",
+          "content": [
+            { "name": "Инструкция к обучению ПК Абилимпикс 2024 для тестирования", "link": "21.docx", "type": "doc" },
+            { "name": "Что нужно делать", "link": "22.doc", "type": "doc" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "/Youth_Commonwealth",
+      "subparagraphs": [
+        {
+          "name": "Youth Commonwealth Abilympics (Youth Council)",
+          "title": "Молодежное содружество Абилимпикс (Молодежный совет)",
+          "content": []
+        }
+      ]
+    },
+    {
+      "name": "/Partners",
+      "subparagraphs": [
+        {
+          "name": "List of partner organizations",
+          "title": "Перечень организаций - партнеров",
+          "content": [
+            {
+              "name": "Памятка по размещению резюме на портале 'Работа в России'",
+              "links": ["scrollFirst_1.jpg", "scrollFirst_2.jpg", "scrollFirst_3.jpg", "scrollFirst_4.jpg"],
+              "type": "scroller"
+            },
+            {
+              "name": "",
+              "links": ["scrollSecond_1.jpg", "scrollSecond_2.jpg", "scrollSecond_3.jpg", "scrollSecond_4.jpg", "scrollSecond_5.jpg"],
+              "type": "scroller"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "/Hotline",
+      "subparagraphs": [
+        {
+          "title": "Номер телефона и адрес электронной почты",
+          "name": "Phone number and email address",
+          "content": [
+            {
+              "name": "Руководитель центра развития движения «Абилимпикс» Оренбургской области: Хабарова Светлана Васильевна, +79619007209, habarova33@mail.ru",
+              "type": "text"
+            },
+            { "name": "Специалист:\n Бурова Анна Олеговна, +79010969729, aoby@mail.orb.ru", "type": "text" },
+            {
+              "name": "Методист центра развития движения «Абилимпикс» Оренбургской области:\nПрисяжнюк Вера Владимировна, +79534501566, veraprisyagnyuk@yandex.ru",
+              "type": "text"
+            },
+            { "name": "Адрес:\nг. Оренбург,\nул. Кичигина, 4", "type": "text" },
+            { "name": "Тел.:\nтел/факс (3532) 57-24-89 - приемная директора", "type": "text" },
+            { "name": "Почта:\noatkbvn@esoo.ru\nspo12@mail.ru", "type": "text" },
+            {
+              "name": "Ссылка на горячую линию",
+              "link": "https://abilympics-russia.ru/about/contacts/",
+              "type": "link",
+              "number": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "/News",
+      "subparagraphs": [{ "title": "2023-2024", "name": "2023-2024", "content": [] }]
+    },
+    {
+      "name": "/Gallery",
+      "subparagraphs": [{ "title": "галерея", "name": "gallery", "content": [] }]
+    },
+    {
+      "name": "/Success_stories_of_participants",
+      "subparagraphs": [
+        {
+          "title": "Публикации об участниках движения Абилимпикс Оренбургской области",
+          "name": "Publications about the participants of the Abilympics movement of the Orenburg region",
+          "content": []
+        }
+      ]
+    },
+    {
+      "name": "/Categories",
+      "subparagraphs": [
+        {
+          "title": "Материалы, способствующие популяризации движения Абилимпикс в Оренбургской области",
+          "name": "Materials promoting the Abilympics movement in the Orenburg region",
+          "content": []
         }
       ]
     }

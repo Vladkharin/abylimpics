@@ -91,15 +91,17 @@ export function ParagraphPage() {
                   return (
                     <React.Fragment key={index}>
                       <div className={styles.text}>
-                        {index + 1}. {item.name}
+                        <a style={{ textDecoration: "none", color: "#000000" }} href={url + item.link}>
+                          {index + 1}. {item.name}
+                        </a>
                       </div>
-                      <iframe src={url + item.link} height={800} width={"100%"}></iframe>
+                      <iframe className={styles.iframe} src={url + item.link}></iframe>
                     </React.Fragment>
                   );
                 case "link":
                   return (
                     <a className={styles.text} key={index} href={item.link}>
-                      {index + 1}. {item.name}
+                      {item.number ? index + 1 + "." : ""} {item.name}
                     </a>
                   );
 
@@ -110,13 +112,16 @@ export function ParagraphPage() {
                       {index == 0 ? ":" : ""}
                     </div>
                   ));
-                case "folder":
-                  return item.links?.map((item, index) => (
-                    <div className={styles.text} key={index}>
-                      {index + 1}
-                      {item.name}
+                case "scroller":
+                  url = "./assets/img/";
+                  return (
+                    <div key={index} className={styles.scroller}>
+                      <div className={styles.text}>{item.name}</div>
+                      {item.links?.map((car, index) => (
+                        <img key={index} src={url + car} alt="img" />
+                      ))}
                     </div>
-                  ));
+                  );
                 default:
                   return;
               }

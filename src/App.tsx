@@ -31,14 +31,14 @@ export type MAINPAGE = {
   }[];
 };
 
-type TYPEFILE = "doc" | "pdf" | "folder" | "text" | "link";
+type TYPEFILE = "doc" | "pdf" | "text" | "link" | "scroller";
 
 export type PARAGRAPHS = {
   name: string;
   subparagraphs: {
     title: string;
     name: string;
-    content: { name: string; link?: string; links?: { name: string; link: string; type: TYPEFILE }[]; type: TYPEFILE }[];
+    content: { name: string; link?: string; links?: string[]; type: TYPEFILE; number?: boolean }[];
   }[];
 }[];
 

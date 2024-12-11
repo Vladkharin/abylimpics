@@ -61,6 +61,23 @@
   font-weight: 700;
 }
 
+.scroller {
+  width: auto;
+  overflow: scroll;
+  overflow-x: hidden;
+  height: 670px;
+  margin: 40px 0;
+}
+
+.scroller > img {
+  width: 100%;
+}
+
+.iframe {
+  height: 650px;
+  width: 100%;
+}
+
 @media (max-width: 1439px) {
   .container {
     width: 1180px;
