@@ -1,8 +1,16 @@
 import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
-import { DATA } from "../../../App";
+import { DATA, PARAGRAPHS } from "../../../App";
 
-export function Header({ data }: { data: DATA }) {
+export function Header({
+  data,
+  setActiveParagraph,
+  setActiveTab,
+}: {
+  data: DATA;
+  setActiveParagraph: React.Dispatch<React.SetStateAction<PARAGRAPHS | undefined>>;
+  setActiveTab: React.Dispatch<React.SetStateAction<number>>;
+}) {
   return (
     <header className={styles.header}>
       <div className={styles.wrapper}>
@@ -20,7 +28,7 @@ export function Header({ data }: { data: DATA }) {
                   <img src="./assets/icons/logo.svg" alt="" />
                 </Link>
               </div>
-              <Nav data={data} />
+              <Nav data={data} setActiveParagraph={setActiveParagraph} setActiveTab={setActiveTab} />
 
               <div className={styles.main_information_inner}></div>
             </div>
@@ -31,11 +39,26 @@ export function Header({ data }: { data: DATA }) {
   );
 }
 
-function Nav({ data }: { data: DATA }) {
+function Nav({
+  data,
+  setActiveParagraph,
+  setActiveTab,
+}: {
+  data: DATA;
+  setActiveParagraph: React.Dispatch<React.SetStateAction<PARAGRAPHS | undefined>>;
+  setActiveTab: React.Dispatch<React.SetStateAction<number>>;
+}) {
   return (
     <nav className={styles.nav}>
       {data.mainPage.paragraphs.map((item: { name: string; link: string }, index: number) => (
-        <Link key={index} to={`/${item.link}`}>
+        <Link
+          key={index}
+          to={`/${item.link}`}
+          onClick={() => {
+            setActiveParagraph(data.paragraphs.filter((car) => car.name == "/" + item.link));
+            setActiveTab(0);
+          }}
+        >
           {item.name}
         </Link>
       ))}

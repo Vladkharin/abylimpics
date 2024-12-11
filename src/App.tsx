@@ -31,9 +31,15 @@ export type MAINPAGE = {
   }[];
 };
 
+type TYPEFILE = "doc" | "pdf" | "folder" | "text" | "link";
+
 export type PARAGRAPHS = {
   name: string;
-  subparagraphs: { title: string; name: string; content: { name: string; link?: string }[] }[];
+  subparagraphs: {
+    title: string;
+    name: string;
+    content: { name: string; link?: string; links?: { name: string; link: string; type: TYPEFILE }[]; type: TYPEFILE }[];
+  }[];
 }[];
 
 export type DATA = {

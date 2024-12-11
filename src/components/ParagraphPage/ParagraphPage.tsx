@@ -12,7 +12,6 @@ export function ParagraphPage() {
   const [activeTab, setActiveTab] = useState(0);
   const [activeParagraph, setActiveParagraph] = useState<PARAGRAPHS>();
 
-  console.log(location);
   async function f() {
     const response = await fetch("./data/data.json");
     const data: DATA = await response.json();
@@ -25,7 +24,7 @@ export function ParagraphPage() {
 
     setData(data);
 
-    setActiveParagraph(data.paragraphs.filter((item) => item.name == location.pathname));
+    setActiveParagraph(data.paragraphs.filter((car) => car.name == location.pathname));
   }
 
   useEffect(() => {
@@ -38,7 +37,7 @@ export function ParagraphPage() {
 
   return (
     <>
-      <Header data={data} />
+      <Header data={data} setActiveParagraph={setActiveParagraph} setActiveTab={setActiveTab} />
       <MenuParagraps />
       <ContetnTabs />
       <Footer />
@@ -49,6 +48,7 @@ export function ParagraphPage() {
     if (!activeParagraph) {
       return;
     }
+
     return (
       <section className={styles.menu}>
         <div className={styles.container}>
@@ -75,53 +75,50 @@ export function ParagraphPage() {
         <div className={styles.container}>
           <div className={styles.content_wrapper}>
             {activeParagraph[0].subparagraphs[activeTab].content.map((item, index) => {
-              if (item.link) {
-                const arr = item.link.split(".");
-                console.log(arr);
-                let url = "";
-                if (
-                  arr[arr.length - 1] == "doc" ||
-                  arr[arr.length - 1] == "docx" ||
-                  arr[arr.length - 1] == "xls" ||
-                  arr[arr.length - 1] == "xlsx"
-                ) {
+              let url = "";
+
+              switch (item.type) {
+                case "doc":
                   url = "./assets/docs/";
                   return (
                     <a className={styles.text} key={index} href={url + item.link}>
                       {index + 1}. {item.name}
                     </a>
                   );
-                } else if (arr[arr.length - 1] == "pdf") {
+
+                case "pdf":
                   url = "./assets/pdf/";
-
-                  console.log(url + item.link);
-
                   return (
-                    <>
+                    <React.Fragment key={index}>
                       <div className={styles.text}>
-                        {index}. {item.name}
+                        {index + 1}. {item.name}
                       </div>
                       <iframe src={url + item.link} height={800} width={"100%"}></iframe>
-                    </>
+                    </React.Fragment>
                   );
-                } else if (arr[0].indexOf("https") != -1) {
+                case "link":
                   return (
                     <a className={styles.text} key={index} href={item.link}>
                       {index + 1}. {item.name}
                     </a>
                   );
-                }
-              } else {
-                const arr1 = item.name.split(":");
 
-                if (arr1.length > 1) {
-                  return arr1.map((item, index) => (
+                case "text":
+                  return item.name.split(":").map((item, index) => (
                     <div className={styles.text} key={index} style={{ marginTop: index == 0 ? "15px" : "0" }}>
                       {item}
                       {index == 0 ? ":" : ""}
                     </div>
                   ));
-                }
+                case "folder":
+                  return item.links?.map((item, index) => (
+                    <div className={styles.text} key={index}>
+                      {index + 1}
+                      {item.name}
+                    </div>
+                  ));
+                default:
+                  return;
               }
             })}
           </div>
