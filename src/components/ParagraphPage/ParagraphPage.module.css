@@ -22,6 +22,7 @@
 .content_wrapper {
   display: flex;
   flex-direction: column;
+  gap: 50px;
 }
 
 .content {
@@ -39,6 +40,58 @@
   text-decoration-skip-ink: none;
   text-decoration: none;
   color: #000000;
+}
+
+.link_news {
+  font-family: Jost;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 34.68px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  margin-bottom: 10px;
+  text-decoration: none;
+  color: #0540f2;
+}
+
+.texts {
+  display: flex;
+  flex-direction: column;
+}
+
+.date {
+  font-family: Jost;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 34.68px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  margin-bottom: 15px;
+}
+
+.title {
+  font-family: Jost;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 34.68px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  margin-bottom: 15px;
+}
+
+.descr {
+  font-family: Jost;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 34.68px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  margin-bottom: 15px;
+  white-space: pre-wrap;
 }
 
 .button {

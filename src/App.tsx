@@ -31,14 +31,25 @@ export type MAINPAGE = {
   }[];
 };
 
-type TYPEFILE = "doc" | "pdf" | "text" | "link" | "scroller";
+type TYPEFILE = "doc" | "pdf" | "text" | "link" | "scroller" | "news";
+type NEWS = {
+  title: string;
+  subtitle?: {
+    name: string;
+    type: "link" | "doc" | "pdf" | "text";
+    link?: string;
+    highlighted_blue: string[];
+    highlighted_black: string[];
+  }[];
+  date: string;
+};
 
 export type PARAGRAPHS = {
   name: string;
   subparagraphs: {
     title: string;
     name: string;
-    content: { name: string; link?: string; links?: string[]; type: TYPEFILE; number?: boolean }[];
+    content: { name: string; link?: string; links?: string[]; type: TYPEFILE; number?: boolean; news?: NEWS }[];
   }[];
 }[];
 

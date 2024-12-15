@@ -3,6 +3,8 @@ import styles from "./AdminPanel.module.css";
 import { Authorization } from "./Authorization/Authorization";
 import { DATA } from "../../App";
 
+const URLAPI = "delete.php";
+
 export function AdminPanel() {
   const [auth, setAuth] = useState(false);
   // const [buttonState, setButtonState] = useState("mainpage");
@@ -89,17 +91,16 @@ async function deleteCertificates(
 
   const formData = new FormData();
 
-  formData.append("data", JSON.stringify(dataEl));
+  formData.append("data", dataEl.mainPage.certificates[0]);
 
-  const response = await fetch("delete.php", {
+  console.log(formData);
+
+  const response = await fetch(URLAPI, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json; charset=UTF-8",
-    },
-    body: JSON.stringify({ a: 10, b: 20 }),
+    body: formData,
   });
 
-  const dataRequest = await response.json();
+  const dataRequest = response.json();
 
   console.log(dataRequest);
 }

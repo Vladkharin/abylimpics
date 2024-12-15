@@ -1,9 +1,5 @@
-<?
+<?php
 
-$A = $_POST['a'];
-$B = $_POST['b'];
+echo $_POST;
 
-$C = json_encode($A . $B);
-echo $C;
-exit();
-
+?>
