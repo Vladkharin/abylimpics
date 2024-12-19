@@ -3,7 +3,7 @@ import { DATA, NEWS, TYPEFILE, SUBTITLE, CONTENT } from "../../App";
 import styles from "./AdminPanel.module.css";
 import { Authorization } from "./Authorization/Authorization";
 
-// const URLAPI = "./action.php";
+const URLAPI = "./action.php";
 
 export function AdminPanel() {
   const [auth, setAuth] = useState(false);
@@ -163,7 +163,7 @@ function RenderSwitch({
           <input type="text" name={"titleNews"} />
           <label>Дата</label>
           <input name={"date"} type="text" placeholder="01.01.2001" />
-          {[...Array(countInputs)].map((item, index) => (
+          {[...Array(countInputs)].map((_item, index) => (
             <NewsInput index={index} />
           ))}
           <button type={"button"} onClick={() => setCountInputs(countInputs + 1)}>
@@ -347,10 +347,10 @@ function editCertificates(data: DATA, index: number): DATA {
 function editNotNews(data: DATA, indexEl: number, paragraphsState: string, index: number): DATA {
   const othersElementsParagraph = data.paragraphs.filter((item) => item.name !== "/" + paragraphsState);
   const currentElementParagraph = data.paragraphs.filter((item) => item.name == "/" + paragraphsState)[0];
-  const otherElementsAreSmallerThanThisOneSubparagraph = currentElementParagraph.subparagraphs.filter((item, indexEl) => indexEl < index);
-  const otherElementsAreBiggestThanThisOneSubparagraph = currentElementParagraph.subparagraphs.filter((item, indexEl) => indexEl > index);
+  const otherElementsAreSmallerThanThisOneSubparagraph = currentElementParagraph.subparagraphs.filter((_item, indexEl) => indexEl < index);
+  const otherElementsAreBiggestThanThisOneSubparagraph = currentElementParagraph.subparagraphs.filter((_item, indexEl) => indexEl > index);
   const currentElementSubparagraph = currentElementParagraph.subparagraphs[index];
-  const currentElementsContent = currentElementSubparagraph.content.filter((item, index) => index != indexEl);
+  const currentElementsContent = currentElementSubparagraph.content.filter((_item, index) => index != indexEl);
 
   return (data = {
     ...data,
@@ -375,10 +375,10 @@ function editNotNews(data: DATA, indexEl: number, paragraphsState: string, index
 function editNews(data: DATA, indexEl: number, paragraphsState: string, index: number): DATA {
   const othersElementsParagraph = data.paragraphs.filter((item) => item.name !== "/" + paragraphsState);
   const currentElementParagraph = data.paragraphs.filter((item) => item.name == "/" + paragraphsState)[0];
-  const otherElementsAreSmallerThanThisOneSubparagraph = currentElementParagraph.subparagraphs.filter((item, indexEl) => indexEl < index);
-  const otherElementsAreBiggestThanThisOneSubparagraph = currentElementParagraph.subparagraphs.filter((item, indexEl) => indexEl > index);
+  const otherElementsAreSmallerThanThisOneSubparagraph = currentElementParagraph.subparagraphs.filter((_item, indexEl) => indexEl < index);
+  const otherElementsAreBiggestThanThisOneSubparagraph = currentElementParagraph.subparagraphs.filter((_item, indexEl) => indexEl > index);
   const currentElementSubparagraph = currentElementParagraph.subparagraphs[index];
-  const currentElementsContent = currentElementSubparagraph.content.filter((item, index) => index != indexEl);
+  const currentElementsContent = currentElementSubparagraph.content.filter((_item, index) => index != indexEl);
 
   return (data = {
     ...data,
@@ -400,7 +400,7 @@ function editNews(data: DATA, indexEl: number, paragraphsState: string, index: n
   });
 }
 
-function addNews(data: DATA, indexEl: number, paragraphsState: string, titleSubparagraph: string, event: React.FormEvent<HTMLFormElement>) {
+function addNews(data: DATA, paragraphsState: string, titleSubparagraph: string, event: React.FormEvent<HTMLFormElement>) {
   const formDATA = new FormData(event.target as HTMLFormElement);
 
   const name = formDATA.get("titleNews")?.toString() as string;
@@ -480,32 +480,31 @@ function addNews(data: DATA, indexEl: number, paragraphsState: string, titleSubp
   const othersElementsParagraph = data.paragraphs.filter((item) => item.name !== "/" + paragraphsState);
   const currentElementParagraph = data.paragraphs.filter((item) => item.name == "/" + paragraphsState)[0];
   const index = currentElementParagraph.subparagraphs.findIndex((el) => el.title == titleSubparagraph);
-  const otherElementsAreSmallerThanThisOneSubparagraph = currentElementParagraph.subparagraphs.filter((item, indexEl) => indexEl < index);
-  const otherElementsAreBiggestThanThisOneSubparagraph = currentElementParagraph.subparagraphs.filter((item, indexEl) => indexEl > index);
+  const otherElementsAreSmallerThanThisOneSubparagraph = currentElementParagraph.subparagraphs.filter((_item, indexEl) => indexEl < index);
+  const otherElementsAreBiggestThanThisOneSubparagraph = currentElementParagraph.subparagraphs.filter((_item, indexEl) => indexEl > index);
   const currentElementSubparagraph = currentElementParagraph.subparagraphs[index];
   const othersElementsContent = currentElementSubparagraph.content;
 
-  return (
-    (data = {
-      ...data,
-      paragraphs: [
-        ...othersElementsParagraph,
-        {
-          name: currentElementParagraph.name,
-          subparagraphs: [
-            ...otherElementsAreSmallerThanThisOneSubparagraph,
-            {
-              title: currentElementSubparagraph.title,
-              name: currentElementSubparagraph.name,
-              content: [...othersElementsContent, obj],
-            },
-            ...otherElementsAreBiggestThanThisOneSubparagraph,
-          ],
-        },
-      ],
-    }),
-    arrayFile
-  );
+  const returnData = {
+    ...data,
+    paragraphs: [
+      ...othersElementsParagraph,
+      {
+        name: currentElementParagraph.name,
+        subparagraphs: [
+          ...otherElementsAreSmallerThanThisOneSubparagraph,
+          {
+            title: currentElementSubparagraph.title,
+            name: currentElementSubparagraph.name,
+            content: [...othersElementsContent, obj],
+          },
+          ...otherElementsAreBiggestThanThisOneSubparagraph,
+        ],
+      },
+    ],
+  };
+
+  return [returnData, arrayFile];
 }
 
 async function editFile(
@@ -520,9 +519,8 @@ async function editFile(
   titleSubparagraph: string = ""
 ) {
   event.preventDefault();
-  let dataEl: DATA;
-
-  // console.log(event);
+  let dataEl: DATA | undefined;
+  let files: string[] | undefined;
 
   switch (pageKey) {
     case "mainPage":
@@ -543,15 +541,17 @@ async function editFile(
         case "News":
           dataEl = editNews(data, indexEl, paragraphsState, index);
           break;
-        case "addNews":
-          const per = addNews(data, indexEl, paragraphsState, titleSubparagraph, event);
-          console.log(per);
-          // dataEl = ;
+        case "addNews": {
+          const per = addNews(data, paragraphsState, titleSubparagraph, event);
+          dataEl = per[0] as DATA;
+          files = per[1] as string[];
+
           break;
+        }
       }
   }
 
-  if (!dataEl) {
+  if (!dataEl || (!files && paragraphKey == "addNews")) {
     return;
   }
 
@@ -559,18 +559,20 @@ async function editFile(
 
   console.log(dataEl);
 
-  // const formData = new FormData();
+  const formData = new FormData();
 
-  // formData.set("data", JSON.stringify(dataEl));
+  formData.set("data", JSON.stringify(dataEl));
 
-  // console.log(formData);
+  formData.set("files", JSON.stringify(files));
 
-  // const response = await fetch(URLAPI, {
-  //   method: "POST",
-  //   body: formData,
-  // });
+  console.log(formData);
 
-  // const dataRequest = await response.json();
+  const response = await fetch(URLAPI, {
+    method: "POST",
+    body: formData,
+  });
 
-  // console.log(dataRequest);
+  const dataRequest = await response.json();
+
+  console.log(dataRequest);
 }
