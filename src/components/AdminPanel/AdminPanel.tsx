@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { DATA, NEWS, TYPEFILE, SUBTITLE } from "../../App";
+import { DATA, NEWS, TYPEFILE, SUBTITLE, CONTENT } from "../../App";
 import styles from "./AdminPanel.module.css";
 import { Authorization } from "./Authorization/Authorization";
 
@@ -115,6 +115,7 @@ export function AdminPanel() {
         </div>
       </div>
       <div style={{ display: addFormState ? "block" : "none" }}>
+        <button onClick={() => setAddFormState(false)}>Закрыть окно</button>
         <form onSubmit={(event) => editFile(0, event, data, setData, buttonState, "addNews", paragraphsState, 0, paragraphStateInForm)}>
           <div>
             <div>Добавляем в {paragraphStateInForm}</div>
@@ -399,21 +400,20 @@ function editNews(data: DATA, indexEl: number, paragraphsState: string, index: n
   });
 }
 
-function addNews(
-  data: DATA,
-  indexEl: number,
-  paragraphsState: string,
-  titleSubparagraph: string,
-  event: React.FormEvent<HTMLFormElement>
-): DATA {
+function addNews(data: DATA, indexEl: number, paragraphsState: string, titleSubparagraph: string, event: React.FormEvent<HTMLFormElement>) {
   const formDATA = new FormData(event.target as HTMLFormElement);
 
-  const obj = {
-    title: formDATA.get("titleNews"),
-    type: formDATA.get("chooseType"),
+  const name = formDATA.get("titleNews")?.toString() as string;
+  const type = formDATA.get("chooseType")?.toString() as TYPEFILE;
+  const titleNews = formDATA.get("titleNews")?.toString() as string;
+  const dateNews = formDATA.get("date")?.toString() as string;
+
+  const obj: CONTENT = {
+    name: name,
+    type: type,
     news: {
-      title: formDATA.get("titleNews"),
-      date: formDATA.get("date"),
+      title: titleNews,
+      date: dateNews,
       subtitle: [],
     },
   };
@@ -427,11 +427,21 @@ function addNews(
   let objJs: any = {};
 
   let i = 0;
+  let b = 0;
+  let c = 0;
+
+  formDATA.forEach((item) => {
+    if (item) {
+      b++;
+    }
+  });
+
+  const arrayFile: string[] = [];
 
   formDATA.forEach(function (value, key) {
-    console.log(objJs);
+    c++;
     if (key.indexOf("chooseTypeNews") != -1) {
-      if (key.indexOf("chooseTypeNews" + (i + 1).toString()) != -1 || (i > 0 && key.indexOf("chooseTypeNews" + (i + 1).toString()) == -1)) {
+      if (key.indexOf("chooseTypeNews" + (i + 1).toString()) != -1) {
         array.push(objJs);
         objJs = {};
         i++;
@@ -450,13 +460,22 @@ function addNews(
     if (key == "link") {
       if (typeof value == "object") {
         objJs.link = value.name;
+        arrayFile.push(value.name);
       } else {
         objJs.link = value;
       }
     }
+
+    if (b == c) {
+      array.push(objJs);
+      objJs = {};
+      i++;
+    }
   });
 
-  console.log(array);
+  if (obj.news) {
+    obj.news.subtitle = array;
+  }
 
   const othersElementsParagraph = data.paragraphs.filter((item) => item.name !== "/" + paragraphsState);
   const currentElementParagraph = data.paragraphs.filter((item) => item.name == "/" + paragraphsState)[0];
@@ -466,24 +485,27 @@ function addNews(
   const currentElementSubparagraph = currentElementParagraph.subparagraphs[index];
   const othersElementsContent = currentElementSubparagraph.content;
 
-  return (data = {
-    ...data,
-    paragraphs: [
-      ...othersElementsParagraph,
-      {
-        name: currentElementParagraph.name,
-        subparagraphs: [
-          ...otherElementsAreSmallerThanThisOneSubparagraph,
-          {
-            title: currentElementSubparagraph.title,
-            name: currentElementSubparagraph.name,
-            content: [...othersElementsContent],
-          },
-          ...otherElementsAreBiggestThanThisOneSubparagraph,
-        ],
-      },
-    ],
-  });
+  return (
+    (data = {
+      ...data,
+      paragraphs: [
+        ...othersElementsParagraph,
+        {
+          name: currentElementParagraph.name,
+          subparagraphs: [
+            ...otherElementsAreSmallerThanThisOneSubparagraph,
+            {
+              title: currentElementSubparagraph.title,
+              name: currentElementSubparagraph.name,
+              content: [...othersElementsContent, obj],
+            },
+            ...otherElementsAreBiggestThanThisOneSubparagraph,
+          ],
+        },
+      ],
+    }),
+    arrayFile
+  );
 }
 
 async function editFile(
@@ -509,7 +531,6 @@ async function editFile(
           dataEl = editCertificates(data, indexEl);
           break;
         case "secondMenu":
-          console.log("secondMenu");
           dataEl = editCertificates(data, indexEl);
           break;
       }
@@ -523,7 +544,9 @@ async function editFile(
           dataEl = editNews(data, indexEl, paragraphsState, index);
           break;
         case "addNews":
-          dataEl = addNews(data, indexEl, paragraphsState, titleSubparagraph, event);
+          const per = addNews(data, indexEl, paragraphsState, titleSubparagraph, event);
+          console.log(per);
+          // dataEl = ;
           break;
       }
   }

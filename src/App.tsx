@@ -47,12 +47,14 @@ export type NEWS = {
   date: string;
 };
 
+export type CONTENT = { name: string; link?: string; links?: string[]; type: TYPEFILE; number?: boolean; news?: NEWS };
+
 export type PARAGRAPHS = {
   name: string;
   subparagraphs: {
     title: string;
     name: string;
-    content: { name: string; link?: string; links?: string[]; type: TYPEFILE; number?: boolean; news?: NEWS }[];
+    content: CONTENT[];
   }[];
 }[];
 
