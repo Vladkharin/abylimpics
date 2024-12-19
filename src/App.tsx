@@ -4,43 +4,46 @@ import { MainPage } from "./components/MainPage/MainPage";
 import { AdminPanel } from "./components/AdminPanel/AdminPanel";
 import { ParagraphPage } from "./components/ParagraphPage/ParagraphPage";
 
-export type MAINPAGE = {
-  certificates: string[];
-  news: {
-    img: string;
-    date: string;
-    descr: string;
-  }[];
-  secondMenu: {
-    title: string;
-    menu: {
-      highlighted: string;
-      sentence: string;
-    }[];
-  };
-  thirdMenu: {
-    title: string;
-    menu: {
-      highlighted: string;
-      sentence: string;
-    }[];
-  };
-  paragraphs: {
-    name: string;
-    link: string;
+type NEWSMAINPAGE = {
+  img: string;
+  date: string;
+  descr: string;
+}[];
+
+type MENUMAINPAGE = {
+  title: string;
+  menu: {
+    highlighted: string;
+    sentence: string;
   }[];
 };
 
-type TYPEFILE = "doc" | "pdf" | "text" | "link" | "scroller" | "news";
-type NEWS = {
+type PARAGRAPHSMAINPAGE = {
+  name: string;
+  link: string;
+}[];
+
+export type MAINPAGE = {
+  [key: string]: string[] | NEWSMAINPAGE | MENUMAINPAGE | PARAGRAPHSMAINPAGE | number;
+  certificates: string[];
+  news: NEWSMAINPAGE;
+  secondMenu: MENUMAINPAGE;
+  thirdMenu: MENUMAINPAGE;
+  paragraphs: PARAGRAPHSMAINPAGE;
+};
+
+export type SUBTITLE = {
+  name: string;
+  type: "link" | "doc" | "pdf" | "text";
+  link?: string;
+  highlighted_blue?: string[];
+  highlighted_black?: string[];
+};
+
+export type TYPEFILE = "doc" | "pdf" | "text" | "link" | "scroller" | "news";
+export type NEWS = {
   title: string;
-  subtitle?: {
-    name: string;
-    type: "link" | "doc" | "pdf" | "text";
-    link?: string;
-    highlighted_blue: string[];
-    highlighted_black: string[];
-  }[];
+  subtitle?: SUBTITLE[];
   date: string;
 };
 
@@ -53,9 +56,15 @@ export type PARAGRAPHS = {
   }[];
 }[];
 
+export type TYPECONTENT = {
+  title: string;
+  name: string;
+}[];
+
 export type DATA = {
   mainPage: MAINPAGE;
   paragraphs: PARAGRAPHS;
+  typeContent: TYPECONTENT;
 };
 
 export default function App() {

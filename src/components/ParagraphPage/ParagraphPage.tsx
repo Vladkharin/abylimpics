@@ -39,7 +39,7 @@ export function ParagraphPage() {
     <>
       <Header data={data} setActiveParagraph={setActiveParagraph} setActiveTab={setActiveTab} />
       <MenuParagraps />
-      <ContetnTabs />
+      <ContetnTabs activeParagraph={activeParagraph} activeTab={activeTab} />
       <Footer />
     </>
   );
@@ -97,103 +97,103 @@ export function ParagraphPage() {
 
   //   return element.join();
   // }
+}
 
-  function ContetnTabs() {
-    if (!activeParagraph) {
-      return;
-    }
-    return (
-      <section className={styles.content}>
-        <div className={styles.container}>
-          <div className={styles.content_wrapper}>
-            {activeParagraph[0].subparagraphs[activeTab].content.map((item, index) => {
-              let url = "";
-
-              switch (item.type) {
-                case "doc":
-                  url = "./assets/docs/";
-                  return (
-                    <a className={styles.text} key={index} href={url + item.link}>
-                      {index + 1}. {item.name}
-                    </a>
-                  );
-
-                case "pdf":
-                  url = "./assets/pdf/";
-                  return (
-                    <React.Fragment key={index}>
-                      <div className={styles.text}>
-                        <a style={{ textDecoration: "none", color: "#000000" }} href={url + item.link}>
-                          {index + 1}. {item.name}
-                        </a>
-                      </div>
-                      <iframe className={styles.iframe} src={url + item.link}></iframe>
-                    </React.Fragment>
-                  );
-                case "link":
-                  return (
-                    <a className={styles.text} key={index} href={item.link}>
-                      {item.number ? index + 1 + "." : ""} {item.name}
-                    </a>
-                  );
-
-                case "text":
-                  return item.name.split(":").map((item, index) => (
-                    <div className={styles.text} key={index} style={{ marginTop: index == 0 ? "15px" : "0" }}>
-                      {item}
-                      {index == 0 ? ":" : ""}
-                    </div>
-                  ));
-                case "scroller":
-                  url = "./assets/img/";
-                  return (
-                    <div key={index} className={styles.scroller}>
-                      <div className={styles.text}>{item.name}</div>
-                      {item.links?.map((car, index) => (
-                        <img key={index} src={url + car} alt="img" />
-                      ))}
-                    </div>
-                  );
-                case "news":
-                  return (
-                    <React.Fragment key={index}>
-                      <div className={styles.texts}>
-                        <div className={styles.date}>{item.news?.date}</div>
-                        <div className={styles.title}>{item.news?.title}</div>
-                        {item.news?.subtitle?.map((car, index) => {
-                          switch (car.type) {
-                            case "text":
-                              return (
-                                <p key={index} className={styles.descr}>
-                                  {car.name}
-                                </p>
-                              );
-
-                            case "pdf":
-                              url = "./assets/pdf/";
-                              return (
-                                <a target="_blank" key={index} href={url + car.link} className={styles.link_news}>
-                                  {car.name}
-                                </a>
-                              );
-                            case "link":
-                              return (
-                                <a target="_blank" key={index} href={car.link} className={styles.link_news}>
-                                  {car.name}
-                                </a>
-                              );
-                          }
-                        })}
-                      </div>
-                    </React.Fragment>
-                  );
-                default:
-                  return;
-              }
-            })}
-          </div>
-        </div>
-      </section>
-    );
+export function ContetnTabs({ activeParagraph, activeTab }: { activeParagraph: PARAGRAPHS | undefined; activeTab: number }) {
+  if (!activeParagraph) {
+    return;
   }
+  return (
+    <section className={styles.content}>
+      <div className={styles.container}>
+        <div className={styles.content_wrapper}>
+          {activeParagraph[0].subparagraphs[activeTab].content.map((item, index) => {
+            let url = "";
+
+            switch (item.type) {
+              case "doc":
+                url = "./assets/docs/";
+                return (
+                  <a className={styles.text} key={index} href={url + item.link}>
+                    {index + 1}. {item.name}
+                  </a>
+                );
+
+              case "pdf":
+                url = "./assets/pdf/";
+                return (
+                  <React.Fragment key={index}>
+                    <div className={styles.text}>
+                      <a style={{ textDecoration: "none", color: "#000000" }} href={url + item.link}>
+                        {index + 1}. {item.name}
+                      </a>
+                    </div>
+                    <iframe className={styles.iframe} src={url + item.link}></iframe>
+                  </React.Fragment>
+                );
+              case "link":
+                return (
+                  <a className={styles.text} key={index} href={item.link}>
+                    {item.number ? index + 1 + "." : ""} {item.name}
+                  </a>
+                );
+
+              case "text":
+                return item.name.split(":").map((item, index) => (
+                  <div className={styles.text} key={index} style={{ marginTop: index == 0 ? "15px" : "0" }}>
+                    {item}
+                    {index == 0 ? ":" : ""}
+                  </div>
+                ));
+              case "scroller":
+                url = "./assets/img/";
+                return (
+                  <div key={index} className={styles.scroller}>
+                    <div className={styles.text}>{item.name}</div>
+                    {item.links?.map((car, index) => (
+                      <img key={index} src={url + car} alt="img" />
+                    ))}
+                  </div>
+                );
+              case "news":
+                return (
+                  <React.Fragment key={index}>
+                    <div className={styles.texts}>
+                      <div className={styles.date}>{item.news?.date}</div>
+                      <div className={styles.title}>{item.news?.title}</div>
+                      {item.news?.subtitle?.map((car, index) => {
+                        switch (car.type) {
+                          case "text":
+                            return (
+                              <p key={index} className={styles.descr}>
+                                {car.name}
+                              </p>
+                            );
+
+                          case "pdf":
+                            url = "./assets/pdf/";
+                            return (
+                              <a target="_blank" key={index} href={url + car.link} className={styles.link_news}>
+                                {car.name}
+                              </a>
+                            );
+                          case "link":
+                            return (
+                              <a target="_blank" key={index} href={car.link} className={styles.link_news}>
+                                {car.name}
+                              </a>
+                            );
+                        }
+                      })}
+                    </div>
+                  </React.Fragment>
+                );
+              default:
+                return;
+            }
+          })}
+        </div>
+      </div>
+    </section>
+  );
 }
