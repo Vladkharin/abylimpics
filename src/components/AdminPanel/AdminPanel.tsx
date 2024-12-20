@@ -13,6 +13,7 @@ export function AdminPanel() {
   const [countInputs, setCountInputs] = useState(1);
   const [radioState, setRadioState] = useState("text");
   const [paragraphStateInForm, setParagraphStateInForm] = useState("");
+  const [addSubparagraph, setAddSubparagparh] = useState(false);
 
   const [data, setData] = useState<DATA>();
 
@@ -40,107 +41,173 @@ export function AdminPanel() {
 
   return (
     <section className={styles.adminPanel} style={{ height: auth ? "auto" : "100vh" }}>
-      <Authorization auth={auth} setAuth={setAuth} />
+      <div className={styles.container}>
+        <Authorization auth={auth} setAuth={setAuth} />
 
-      <div style={{ display: auth && !addFormState ? "block" : "none" }}>
-        <div className={styles.button_wrapper}>
-          <button onClick={() => setButtonState("mainPage")}> Главная страница</button>
-          <button onClick={() => setButtonState("paragraphs")}> Пункты</button>
-        </div>
-        <div style={{ display: buttonState == "mainPage" ? "block" : "none" }}>
-          <div>
-            <div> Сертификаты </div>
-            <div className={styles.cerificates_wrapper}>
-              {data.mainPage.certificates.map((item, index) => (
-                <div key={index}>
-                  <img src={"./assets/img/" + item} alt="certificates" />
-                  <form onSubmit={(event) => editFile(index, event, data, setData, buttonState, "certificates")}>
-                    <button type="submit"> Удалить</button>
-                  </form>
-                </div>
+        <div style={{ display: auth && !addFormState ? "block" : "none" }}>
+          <div className={styles.button_wrapper}>
+            <button className={styles.pages_button} onClick={() => setButtonState("mainPage")}>
+              Главная страница
+            </button>
+            <button className={styles.pages_button} onClick={() => setButtonState("paragraphs")}>
+              {" "}
+              Пункты
+            </button>
+          </div>
+          <div style={{ display: buttonState == "mainPage" ? "block" : "none" }}>
+            <div>
+              <div> Сертификаты </div>
+              <div className={styles.cerificates_wrapper}>
+                {data.mainPage.certificates.map((item, index) => (
+                  <div key={index}>
+                    <img src={"./assets/docs/" + item} alt="certificates" />
+                    <form
+                      onSubmit={(event) =>
+                        editFile(setCountInputs, setAddFormState, index, event, data, setData, buttonState, "certificates")
+                      }
+                    >
+                      <button type="submit"> Удалить</button>
+                    </form>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div>
+              <div>Первое раскрывающееся меню</div>
+            </div>
+            <div>
+              <div>Второе раскрывающееся меню</div>
+            </div>
+          </div>
+          <div style={{ display: buttonState == "paragraphs" ? "block" : "none" }}>
+            <div className={styles.paragraph_buttons}>
+              {data.mainPage.paragraphs.map((paragraph, index) => (
+                <button className={styles.paragraph_button} key={index} onClick={() => setParagraphsState(paragraph.link)}>
+                  {paragraph.name}
+                </button>
               ))}
+            </div>
+            <div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  margin: "30px 0px",
+                  flexDirection: addSubparagraph ? "column" : "row",
+                  alignItems: "center",
+                }}
+              >
+                <button
+                  className={styles.add_paragraph_button}
+                  onClick={() => (addSubparagraph ? setAddSubparagparh(false) : setAddSubparagparh(true))}
+                >
+                  {addSubparagraph ? "Убрать форму" : "Добавить подпункт"}
+                </button>
+                <FormWithAddSubparagrap state={addSubparagraph} />
+              </div>
+              {data.paragraphs.map((item) => {
+                if (item.name == "/" + paragraphsState) {
+                  return item.subparagraphs.map((car, index) => (
+                    <React.Fragment key={index}>
+                      <div style={{ fontSize: "40px", fontWeight: "500px" }}>{car.title}</div>
+                      {car.content.map((el, indexEl) =>
+                        el.type == "news" ? (
+                          <News
+                            setCountInputs={setCountInputs}
+                            setAddFormState={setAddFormState}
+                            content={el}
+                            indexEl={indexEl}
+                            data={data}
+                            setData={setData}
+                            buttonState={buttonState}
+                            paragraphsState={paragraphsState}
+                            index={index}
+                          />
+                        ) : (
+                          <NotNews
+                            setCountInputs={setCountInputs}
+                            setAddFormState={setAddFormState}
+                            content={el}
+                            indexEl={indexEl}
+                            data={data}
+                            setData={setData}
+                            buttonState={buttonState}
+                            paragraphsState={paragraphsState}
+                            index={index}
+                          />
+                        )
+                      )}
+                      <button
+                        onClick={() => {
+                          setAddFormState(true);
+                          setParagraphStateInForm(car.title);
+                        }}
+                      >
+                        Добавить
+                      </button>
+                    </React.Fragment>
+                  ));
+                }
+              })}
             </div>
           </div>
         </div>
-        <div style={{ display: buttonState == "paragraphs" ? "block" : "none" }}>
-          <div>
-            {data.mainPage.paragraphs.map((paragraph, index) => (
-              <button key={index} onClick={() => setParagraphsState(paragraph.link)}>
-                {paragraph.name}
-              </button>
-            ))}
-          </div>
-          <div>
-            {data.paragraphs.map((item) => {
-              if (item.name == "/" + paragraphsState) {
-                return item.subparagraphs.map((car, index) => (
-                  <React.Fragment key={index}>
-                    <div style={{ fontSize: "40px", fontWeight: "500px" }}>{car.title}</div>
-                    {car.content.map((el, indexEl) =>
-                      el.type == "news" ? (
-                        <News
-                          content={el}
-                          indexEl={indexEl}
-                          data={data}
-                          setData={setData}
-                          buttonState={buttonState}
-                          paragraphsState={paragraphsState}
-                          index={index}
-                        />
-                      ) : (
-                        <NotNews
-                          content={el}
-                          indexEl={indexEl}
-                          data={data}
-                          setData={setData}
-                          buttonState={buttonState}
-                          paragraphsState={paragraphsState}
-                          index={index}
-                        />
-                      )
-                    )}
-                    <button
-                      onClick={() => {
-                        setAddFormState(true);
-                        setParagraphStateInForm(car.title);
-                      }}
-                    >
-                      Добавить
-                    </button>
-                  </React.Fragment>
-                ));
-              }
-            })}
-          </div>
+        <div style={{ display: addFormState ? "block" : "none" }}>
+          <form
+            onSubmit={(event) =>
+              editFile(
+                setCountInputs,
+                setAddFormState,
+                0,
+                event,
+                data,
+                setData,
+                buttonState,
+                "addNews",
+                paragraphsState,
+                0,
+                paragraphStateInForm
+              )
+            }
+          >
+            <button type={"reset"} onClick={() => setAddFormState(false)}>
+              Закрыть окно
+            </button>
+            <div>
+              <div>Добавляем в {paragraphStateInForm}</div>
+              {data.typeContent.map((item, index) => (
+                <div key={index}>
+                  <input
+                    checked={radioState == item.name ? true : false}
+                    onChange={() => setRadioState(item.name)}
+                    type={"radio"}
+                    name={"chooseType"}
+                    value={item.name}
+                    id={item.name}
+                  />
+                  <label htmlFor={item.name}>{item.title}</label>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <RenderSwitch name={radioState} countInputs={countInputs} setCountInputs={setCountInputs} />
+            </div>
+            <button type={"submit"}>Сохранить изменение</button>
+          </form>
         </div>
       </div>
-      <div style={{ display: addFormState ? "block" : "none" }}>
-        <button onClick={() => setAddFormState(false)}>Закрыть окно</button>
-        <form onSubmit={(event) => editFile(0, event, data, setData, buttonState, "addNews", paragraphsState, 0, paragraphStateInForm)}>
-          <div>
-            <div>Добавляем в {paragraphStateInForm}</div>
-            {data.typeContent.map((item, index) => (
-              <div key={index}>
-                <input
-                  checked={radioState == item.name ? true : false}
-                  onChange={() => setRadioState(item.name)}
-                  type={"radio"}
-                  name={"chooseType"}
-                  value={item.name}
-                  id={item.name}
-                />
-                <label htmlFor={item.name}>{item.title}</label>
-              </div>
-            ))}
-          </div>
-
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <RenderSwitch name={radioState} countInputs={countInputs} setCountInputs={setCountInputs} />
-          </div>
-          <button type={"submit"}>Сохранить изменение</button>
-        </form>
-      </div>
     </section>
+  );
+}
+
+function FormWithAddSubparagrap({ state }: { state: boolean }) {
+  return (
+    <form style={{ display: state ? "flex" : "none", flexDirection: "column", gap: "10px" }}>
+      <label className={styles.add_paragraph_label}>Добавить подпункт</label>
+      <input type="text" />
+      <button type={"submit"}>Сохранить</button>
+    </form>
   );
 }
 
@@ -168,6 +235,9 @@ function RenderSwitch({
           ))}
           <button type={"button"} onClick={() => setCountInputs(countInputs + 1)}>
             Добавить еще один элемент
+          </button>
+          <button type={"button"} onClick={() => setCountInputs(countInputs - 1)}>
+            Убрать один элемент
           </button>
         </>
       );
@@ -220,6 +290,30 @@ function NewsInput(item: { index: number }) {
         value={"text"}
         type={"radio"}
       />
+      <label>Видео</label>
+      <input
+        checked={radioNewsState == "video" ? true : false}
+        onChange={() => setRadioNewsState("video")}
+        name={"chooseTypeNews" + `${item.index}`}
+        value={"video"}
+        type={"radio"}
+      />
+      <label>Карусель для фото вертикальных</label>
+      <input
+        checked={radioNewsState == "scrollerVert" ? true : false}
+        onChange={() => setRadioNewsState("scrollerVert")}
+        name={"chooseTypeNews" + `${item.index}`}
+        value={"scrollerVert"}
+        type={"radio"}
+      />
+      <label>Карусель для фото горизонтальных</label>
+      <input
+        checked={radioNewsState == "scrollerGor" ? true : false}
+        onChange={() => setRadioNewsState("scrollerGor")}
+        name={"chooseTypeNews" + `${item.index}`}
+        value={"scrollerGor"}
+        type={"radio"}
+      />
 
       <RadioNews state={radioNewsState} />
     </>
@@ -261,7 +355,43 @@ function RadioNews({ state }: { state: string }) {
           <textarea name="text"></textarea>
         </>
       );
+    case "video":
+      return (
+        <>
+          <label>Ссылка на видео</label>
+          <input name="video" type="text" />
+        </>
+      );
+    case "scrollerVert":
+      return scrollerComponent();
+    case "scrollerGor":
+      return scrollerComponent();
   }
+}
+
+function scrollerComponent() {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [countImgInput, setCountImgInput] = useState<number>(1);
+  return (
+    <>
+      {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        [...Array(countImgInput)].map((_item: number) => {
+          return (
+            <>
+              <input type="file" name={"file"} />
+            </>
+          );
+        })
+      }
+      <button type={"button"} onClick={() => setCountImgInput(countImgInput + 1)}>
+        Добавить фото
+      </button>
+      <button type={"button"} onClick={() => setCountImgInput(countImgInput - 1)}>
+        Убрать фото
+      </button>
+    </>
+  );
 }
 
 function NotNews({
@@ -272,6 +402,8 @@ function NotNews({
   buttonState,
   paragraphsState,
   index,
+  setAddFormState,
+  setCountInputs,
 }: {
   content: {
     name: string;
@@ -287,9 +419,16 @@ function NotNews({
   buttonState: string;
   paragraphsState: string;
   index: number;
+  setAddFormState: React.Dispatch<React.SetStateAction<boolean>>;
+  setCountInputs: React.Dispatch<React.SetStateAction<number>>;
 }) {
   return (
-    <form onSubmit={(event) => editFile(indexEl, event, data, setData, buttonState, "notNews", paragraphsState, index)} key={indexEl}>
+    <form
+      onSubmit={(event) =>
+        editFile(setCountInputs, setAddFormState, indexEl, event, data, setData, buttonState, "notNews", paragraphsState, index)
+      }
+      key={indexEl}
+    >
       <div>{content.name}</div>
       <button type={"submit"}>Удалить</button>
     </form>
@@ -304,6 +443,8 @@ function News({
   buttonState,
   paragraphsState,
   index,
+  setAddFormState,
+  setCountInputs,
 }: {
   content: {
     name: string;
@@ -319,9 +460,16 @@ function News({
   buttonState: string;
   paragraphsState: string;
   index: number;
+  setAddFormState: React.Dispatch<React.SetStateAction<boolean>>;
+  setCountInputs: React.Dispatch<React.SetStateAction<number>>;
 }) {
   return (
-    <form onSubmit={(event) => editFile(indexEl, event, data, setData, buttonState, "News", paragraphsState, index)} key={indexEl}>
+    <form
+      onSubmit={(event) =>
+        editFile(setCountInputs, setAddFormState, indexEl, event, data, setData, buttonState, "News", paragraphsState, index)
+      }
+      key={indexEl}
+    >
       <div>{content.news?.date}</div>
       <div>{content.news?.title}</div>
       {content.news?.subtitle?.map((car, index) => (
@@ -424,6 +572,7 @@ function addNews(data: DATA, paragraphsState: string, titleSubparagraph: string,
 
   const array: SUBTITLE[] = [];
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let objJs: any = {};
 
   let i = 0;
@@ -436,7 +585,7 @@ function addNews(data: DATA, paragraphsState: string, titleSubparagraph: string,
     }
   });
 
-  const arrayFile: string[] = [];
+  const arrayFile: File[] = [];
 
   formDATA.forEach(function (value, key) {
     c++;
@@ -460,10 +609,26 @@ function addNews(data: DATA, paragraphsState: string, titleSubparagraph: string,
     if (key == "link") {
       if (typeof value == "object") {
         objJs.link = value.name;
-        arrayFile.push(value.name);
+        arrayFile.push(value);
       } else {
         objJs.link = value;
       }
+    }
+
+    if (key == "file") {
+      const file = value as File;
+      arrayFile.push(file);
+      if (typeof objJs.links == "undefined") {
+        objJs.links = [file.name as string];
+      } else {
+        objJs.links = [...objJs.links, file.name as string];
+      }
+    }
+
+    console.log(key, value);
+
+    if (key == "video") {
+      objJs.link = value;
     }
 
     if (b == c) {
@@ -476,6 +641,8 @@ function addNews(data: DATA, paragraphsState: string, titleSubparagraph: string,
   if (obj.news) {
     obj.news.subtitle = array;
   }
+
+  console.log(obj);
 
   const othersElementsParagraph = data.paragraphs.filter((item) => item.name !== "/" + paragraphsState);
   const currentElementParagraph = data.paragraphs.filter((item) => item.name == "/" + paragraphsState)[0];
@@ -508,6 +675,8 @@ function addNews(data: DATA, paragraphsState: string, titleSubparagraph: string,
 }
 
 async function editFile(
+  setCountInputs: React.Dispatch<React.SetStateAction<number>>,
+  setAddFormState: React.Dispatch<React.SetStateAction<boolean>>,
   indexEl: number,
   event: React.FormEvent<HTMLFormElement>,
   data: DATA,
@@ -520,7 +689,9 @@ async function editFile(
 ) {
   event.preventDefault();
   let dataEl: DATA | undefined;
-  let files: string[] | undefined;
+  let files: File[] | undefined;
+
+  const form = event.target as HTMLFormElement;
 
   switch (pageKey) {
     case "mainPage":
@@ -544,8 +715,7 @@ async function editFile(
         case "addNews": {
           const per = addNews(data, paragraphsState, titleSubparagraph, event);
           dataEl = per[0] as DATA;
-          files = per[1] as string[];
-
+          files = per[1] as File[];
           break;
         }
       }
@@ -557,15 +727,13 @@ async function editFile(
 
   setData({ ...dataEl });
 
-  console.log(dataEl);
-
   const formData = new FormData();
 
   formData.set("data", JSON.stringify(dataEl));
 
-  formData.set("files", JSON.stringify(files));
-
-  console.log(formData);
+  files?.forEach((file, index) => {
+    formData.append(`file${index}`, file, file.name);
+  });
 
   const response = await fetch(URLAPI, {
     method: "POST",
@@ -574,5 +742,11 @@ async function editFile(
 
   const dataRequest = await response.json();
 
-  console.log(dataRequest);
+  if (dataRequest.success) {
+    setAddFormState(false);
+    form.reset();
+    setCountInputs(1);
+  } else {
+    console.log("Ошибка");
+  }
 }

@@ -41,16 +41,20 @@ export function Authorization({ auth, setAuth }: PROPS) {
   });
 
   return (
-    <form className={styles.form} style={{ display: auth ? "none" : "flex" }} onSubmit={(event) => handleSubmit(event)}>
-      <label>
-        <p>Введите логин</p>
-        <input type="text" name={"login"} onChange={(event) => handleChange(event)} />
-      </label>
-      <label>
-        <p>Введите пароль</p>
-        <input type="password" name={"password"} onChange={(event) => handleChange(event)} />
-      </label>
-      <button type="submit">Войти</button>
-    </form>
+    <div style={{ display: "flex", justifyContent: "center" }}>
+      <form className={styles.form} style={{ display: auth ? "none" : "flex" }} onSubmit={(event) => handleSubmit(event)}>
+        <label>
+          <p>Введите логин</p>
+          <input type="text" name={"login"} onChange={(event) => handleChange(event)} />
+        </label>
+        <label>
+          <p>Введите пароль</p>
+          <input type="password" name={"password"} onChange={(event) => handleChange(event)} />
+        </label>
+        <button style={{ width: "100%" }} type="submit">
+          Войти
+        </button>
+      </form>
+    </div>
   );
 }

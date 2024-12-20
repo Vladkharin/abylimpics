@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import { DATA, PARAGRAPHS } from "../../App";
+import { DATA, NEWS, PARAGRAPHS } from "../../App";
 import { Header } from "./header/Header";
 import styles from "./ParagraphPage.module.css";
 import { Footer } from "./footer/Footer";
@@ -65,38 +65,126 @@ export function ParagraphPage() {
       </section>
     );
   }
+}
 
-  // function highlightedBlack(text: string) {
-  //   return;
-  // }
+function ScrollerGor({ news }: { news: NEWS | undefined }) {
+  const [countImgs, setCountImgs] = useState<number>(0);
+  const [activeImg, setActiveImg] = useState(0);
+  const url = "./assets/docs/";
 
-  // function highlightedBlue(text: string) {
-  //   return <span color="#0540f2">{text}</span>;
-  // }
+  return (
+    <div className={styles.carousel}>
+      <div style={{ width: `${countImgs * 1180}` + "px", transform: `translateX(-${activeImg * 1180}px)` }} className={styles.inner}>
+        {news?.subtitle?.map((item) => {
+          if (item.type == "scrollerGor") {
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            useEffect(() => {
+              if (!item.links) {
+                return;
+              }
 
-  // function findAndEditHightedText(highlightedBlackArray: string[] = [], highlightedBlueArray: string[] = [], text: string) {
-  //   const htmlCode = text;
+              setCountImgs(item.links?.length);
+            });
 
-  //   if (!highlightedBlackArray) {
-  //     return <p>{htmlCode}</p>;
-  //   }
+            const arr = item.links?.map((car) => {
+              return (
+                <div className={styles.gor}>
+                  <img src={url + car} />
+                </div>
+              );
+            });
 
-  //   const element: JSX.Element[] = [];
+            return arr;
+          }
+        })}
+      </div>
+      <button
+        onClick={() => {
+          if (activeImg >= countImgs - 1) {
+            setActiveImg(0);
+          } else {
+            setActiveImg(activeImg + 1);
+          }
+        }}
+        className={styles.right}
+      >
+        {" "}
+        &gt;{" "}
+      </button>
+      <button
+        onClick={() => {
+          if (activeImg <= 0) {
+            setActiveImg(countImgs - 1);
+          } else {
+            setActiveImg(activeImg - 1);
+          }
+        }}
+        className={styles.left}
+      >
+        {" "}
+        &lt;{" "}
+      </button>
+    </div>
+  );
+}
+function ScrollerVert({ news }: { news: NEWS | undefined }) {
+  const [countImgs, setCountImgs] = useState<number>(0);
+  const [activeImg, setActiveImg] = useState(0);
+  const url = "./assets/docs/";
+  return (
+    <div className={styles.carousel}>
+      <div style={{ width: `${countImgs * 590}` + "px", transform: `translateX(-${activeImg * 1180}px)` }} className={styles.inner}>
+        {news?.subtitle?.map((item) => {
+          if (item.type == "scrollerVert") {
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            useEffect(() => {
+              if (!item.links) {
+                return;
+              }
 
-  //   highlightedBlackArray.forEach((item, index) => {
-  //     element.push(
-  //       <p key={index} className={styles.texts}>
-  //         {htmlCode.split(item)[0]}
-  //         <span color="#0540f2">{item}</span>
-  //         {htmlCode.split(item)[1]}
-  //       </p>
-  //     );
-  //   });
+              setCountImgs(item.links?.length);
+            }, []);
 
-  //   console.log(element);
+            const arr = item.links?.map((car) => {
+              return (
+                <div className={styles.vert}>
+                  <img src={url + car} />
+                </div>
+              );
+            });
 
-  //   return element.join();
-  // }
+            return arr;
+          }
+        })}
+      </div>
+      <button
+        onClick={() => {
+          if (activeImg >= countImgs / 2 - 0.5) {
+            setActiveImg(0);
+          } else {
+            setActiveImg(activeImg + 0.5);
+          }
+        }}
+        className={styles.right}
+      >
+        {" "}
+        &gt;{" "}
+      </button>
+      <button
+        onClick={() => {
+          if (activeImg <= 0) {
+            setActiveImg(countImgs / 2 - 0.5);
+          } else {
+            setActiveImg(activeImg - 0.5);
+          }
+        }}
+        className={styles.left}
+      >
+        {" "}
+        &lt;{" "}
+      </button>
+    </div>
+  );
 }
 
 export function ContetnTabs({ activeParagraph, activeTab }: { activeParagraph: PARAGRAPHS | undefined; activeTab: number }) {
@@ -120,7 +208,7 @@ export function ContetnTabs({ activeParagraph, activeTab }: { activeParagraph: P
                 );
 
               case "pdf":
-                url = "./assets/pdf/";
+                url = "./assets/docs/";
                 return (
                   <React.Fragment key={index}>
                     <div className={styles.text}>
@@ -171,7 +259,7 @@ export function ContetnTabs({ activeParagraph, activeTab }: { activeParagraph: P
                             );
 
                           case "pdf":
-                            url = "./assets/pdf/";
+                            url = "./assets/docs/";
                             return (
                               <a target="_blank" key={index} href={url + car.link} className={styles.link_news}>
                                 {car.name}
@@ -183,6 +271,30 @@ export function ContetnTabs({ activeParagraph, activeTab }: { activeParagraph: P
                                 {car.name}
                               </a>
                             );
+                          case "doc":
+                            url = "./assets/docs/";
+                            return (
+                              <a target="_blank" key={index} href={url + car.link} className={styles.link_news}>
+                                {car.name}
+                              </a>
+                            );
+                          case "scrollerGor": {
+                            url = "./assets/docs/";
+                            return <ScrollerGor news={item.news} />;
+                          }
+
+                          case "scrollerVert": {
+                            url = "./assets/docs/";
+                            return <ScrollerVert news={item.news} />;
+                          }
+
+                          case "video": {
+                            return (
+                              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "50px 0" }}>
+                                <iframe src={car.link} width={"400px"} height={"400px"}></iframe>
+                              </div>
+                            );
+                          }
                         }
                       })}
                     </div>

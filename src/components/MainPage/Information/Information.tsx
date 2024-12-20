@@ -10,7 +10,7 @@ export function Information({ certificates }: { certificates: string[] }) {
         {certificates.map((certificate: string, index: number) => {
           return (
             <div key={index}>
-              <img src={"./assets/img/" + certificate} alt="" />
+              <img src={"./assets/docs/" + certificate} alt="" />
             </div>
           );
         })}

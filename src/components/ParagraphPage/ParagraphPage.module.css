@@ -29,6 +29,59 @@
   margin: 30px 0;
 }
 
+.carousel {
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  width: 1180px;
+  margin: 75px 0;
+}
+
+.inner {
+  display: flex;
+}
+
+.gor {
+  width: 800px;
+  margin: 0 200px;
+
+  height: 400px;
+}
+
+.vert {
+  width: 1000px;
+  padding: 0 100px;
+  height: 600px;
+}
+
+.inner > div > img {
+  height: 100%;
+  width: 100%;
+}
+
+.right {
+  color: #000;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  font-size: 40px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+}
+.left {
+  color: #000;
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  font-size: 40px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+}
+
 .text {
   font-family: Jost;
   font-size: 24px;
