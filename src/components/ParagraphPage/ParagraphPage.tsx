@@ -4,6 +4,7 @@ import { DATA, NEWS, PARAGRAPHS } from "../../App";
 import { Header } from "./header/Header";
 import styles from "./ParagraphPage.module.css";
 import { Footer } from "./footer/Footer";
+import getImageSize from "image-size-from-url";
 
 export function ParagraphPage() {
   const location = useLocation();
@@ -67,7 +68,37 @@ export function ParagraphPage() {
   }
 }
 
-function ScrollerGor({ news }: { news: NEWS | undefined }) {
+function ImageComponent({ url }: { url: string }) {
+  const [size, setSize] = useState("");
+
+  useEffect(() => {
+    xxx();
+  }, []);
+
+  async function getImageData() {
+    const { width, height } = await getImageSize(url);
+
+    if (width >= height) {
+      return "gor";
+    } else {
+      return "vert";
+    }
+  }
+
+  async function xxx() {
+    const state = await getImageData();
+
+    setSize(state);
+  }
+
+  return (
+    <div style={{ width: "1180px", height: "800px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+      <img className={size == "vert" ? styles.vert : styles.gor} src={url} alt="img" />
+    </div>
+  );
+}
+
+function Scroller({ news }: { news: NEWS | undefined }) {
   const [countImgs, setCountImgs] = useState<number>(0);
   const [activeImg, setActiveImg] = useState(0);
   const url = "./assets/docs/";
@@ -76,7 +107,7 @@ function ScrollerGor({ news }: { news: NEWS | undefined }) {
     <div className={styles.carousel}>
       <div style={{ width: `${countImgs * 1180}` + "px", transform: `translateX(-${activeImg * 1180}px)` }} className={styles.inner}>
         {news?.subtitle?.map((item) => {
-          if (item.type == "scrollerGor") {
+          if (item.type == "scroller") {
             // eslint-disable-next-line react-hooks/rules-of-hooks
             useEffect(() => {
               if (!item.links) {
@@ -87,11 +118,7 @@ function ScrollerGor({ news }: { news: NEWS | undefined }) {
             });
 
             const arr = item.links?.map((car) => {
-              return (
-                <div className={styles.gor}>
-                  <img src={url + car} />
-                </div>
-              );
+              return <ImageComponent url={url + car} />;
             });
 
             return arr;
@@ -117,65 +144,6 @@ function ScrollerGor({ news }: { news: NEWS | undefined }) {
             setActiveImg(countImgs - 1);
           } else {
             setActiveImg(activeImg - 1);
-          }
-        }}
-        className={styles.left}
-      >
-        {" "}
-        &lt;{" "}
-      </button>
-    </div>
-  );
-}
-function ScrollerVert({ news }: { news: NEWS | undefined }) {
-  const [countImgs, setCountImgs] = useState<number>(0);
-  const [activeImg, setActiveImg] = useState(0);
-  const url = "./assets/docs/";
-  return (
-    <div className={styles.carousel}>
-      <div style={{ width: `${countImgs * 590}` + "px", transform: `translateX(-${activeImg * 1180}px)` }} className={styles.inner}>
-        {news?.subtitle?.map((item) => {
-          if (item.type == "scrollerVert") {
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            useEffect(() => {
-              if (!item.links) {
-                return;
-              }
-
-              setCountImgs(item.links?.length);
-            }, []);
-
-            const arr = item.links?.map((car) => {
-              return (
-                <div className={styles.vert}>
-                  <img src={url + car} />
-                </div>
-              );
-            });
-
-            return arr;
-          }
-        })}
-      </div>
-      <button
-        onClick={() => {
-          if (activeImg >= countImgs / 2 - 0.5) {
-            setActiveImg(0);
-          } else {
-            setActiveImg(activeImg + 0.5);
-          }
-        }}
-        className={styles.right}
-      >
-        {" "}
-        &gt;{" "}
-      </button>
-      <button
-        onClick={() => {
-          if (activeImg <= 0) {
-            setActiveImg(countImgs / 2 - 0.5);
-          } else {
-            setActiveImg(activeImg - 0.5);
           }
         }}
         className={styles.left}
@@ -278,14 +246,9 @@ export function ContetnTabs({ activeParagraph, activeTab }: { activeParagraph: P
                                 {car.name}
                               </a>
                             );
-                          case "scrollerGor": {
+                          case "scroller": {
                             url = "./assets/docs/";
-                            return <ScrollerGor news={item.news} />;
-                          }
-
-                          case "scrollerVert": {
-                            url = "./assets/docs/";
-                            return <ScrollerVert news={item.news} />;
+                            return <Scroller news={item.news} />;
                           }
 
                           case "video": {

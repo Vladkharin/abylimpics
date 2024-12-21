@@ -298,23 +298,14 @@ function NewsInput(item: { index: number }) {
         value={"video"}
         type={"radio"}
       />
-      <label>Карусель для фото вертикальных</label>
+      <label>Карусель для фото</label>
       <input
-        checked={radioNewsState == "scrollerVert" ? true : false}
-        onChange={() => setRadioNewsState("scrollerVert")}
+        checked={radioNewsState == "scroller" ? true : false}
+        onChange={() => setRadioNewsState("scroller")}
         name={"chooseTypeNews" + `${item.index}`}
-        value={"scrollerVert"}
+        value={"scroller"}
         type={"radio"}
       />
-      <label>Карусель для фото горизонтальных</label>
-      <input
-        checked={radioNewsState == "scrollerGor" ? true : false}
-        onChange={() => setRadioNewsState("scrollerGor")}
-        name={"chooseTypeNews" + `${item.index}`}
-        value={"scrollerGor"}
-        type={"radio"}
-      />
-
       <RadioNews state={radioNewsState} />
     </>
   );
@@ -362,9 +353,7 @@ function RadioNews({ state }: { state: string }) {
           <input name="video" type="text" />
         </>
       );
-    case "scrollerVert":
-      return scrollerComponent();
-    case "scrollerGor":
+    case "scroller":
       return scrollerComponent();
   }
 }

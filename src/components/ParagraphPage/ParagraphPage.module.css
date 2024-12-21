@@ -43,20 +43,12 @@
 
 .gor {
   width: 800px;
-  margin: 0 200px;
-
-  height: 400px;
+  height: 450px;
 }
 
 .vert {
-  width: 1000px;
-  padding: 0 100px;
+  width: 400px;
   height: 600px;
-}
-
-.inner > div > img {
-  height: 100%;
-  width: 100%;
 }
 
 .right {

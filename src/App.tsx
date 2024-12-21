@@ -34,7 +34,7 @@ export type MAINPAGE = {
 
 export type SUBTITLE = {
   name: string;
-  type: "link" | "doc" | "pdf" | "text" | "scrollerVert" | "scrollerGor" | "video";
+  type: "link" | "doc" | "pdf" | "text" | "scroller" | "scroller" | "video";
   link?: string;
   links?: string[];
   highlighted_blue?: string[];
