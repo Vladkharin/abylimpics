@@ -114,8 +114,8 @@ function Scroller({ news }: { news: NEWS | undefined }) {
                 return;
               }
 
-              setCountImgs(item.links?.length);
-            });
+              setCountImgs(item.links.length);
+            }, []);
 
             const arr = item.links?.map((car) => {
               return <ImageComponent url={url + car} />;
@@ -202,7 +202,7 @@ export function ContetnTabs({ activeParagraph, activeTab }: { activeParagraph: P
                   </div>
                 ));
               case "scroller":
-                url = "./assets/img/";
+                url = "./assets/docs/";
                 return (
                   <div key={index} className={styles.scroller}>
                     <div className={styles.text}>{item.name}</div>

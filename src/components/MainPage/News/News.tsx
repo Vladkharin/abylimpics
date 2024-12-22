@@ -1,35 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./News.module.css";
+import { CONTENT, DATA } from "../../../App";
 
-export function News({
-  news,
-  secondMenu,
-  thirdMenu,
-}: {
-  news: {
-    img: string;
-    date: string;
-    descr: string;
-  }[];
-  secondMenu: {
-    title: string;
-    menu: {
-      highlighted: string;
-      sentence: string;
-    }[];
-  };
-  thirdMenu: {
-    title: string;
-    menu: {
-      highlighted: string;
-      sentence: string;
-    }[];
-  };
-}) {
+export function News({ data }: { data: DATA }) {
+  function createNewsArray() {
+    const paragraph = data.paragraphs.filter((item) => item.name == "/News")[0];
+
+    const array: CONTENT[] = [];
+    paragraph.subparagraphs.forEach((item, index) => {
+      const sortContent = paragraph.subparagraphs[index].content.sort(compare);
+
+      console.log(sortContent);
+      // sortContent.forEach((car) => {
+      //   array.shift(car);
+      // });
+    });
+
+    console.log(paragraph);
+  }
+
+  function compare(a: CONTENT, b: CONTENT): number {
+    if (!a.news || !b.news) {
+      return 0;
+    }
+
+    const arrayDateA = a.news.date.split(".");
+    const arrayDateB = b.news.date.split(".");
+    Å;
+    const dateA = new Date(Number(arrayDateA[2]), Number(arrayDateA[1]), Number(arrayDateA[0]));
+    const dateB = new Date(Number(arrayDateB[2]), Number(arrayDateB[1]), Number(arrayDateB[0]));
+
+    console.log(dateA, dateB);
+
+    return dateB.getSeconds() - dateA.getSeconds();
+  }
+
+  useEffect(() => {
+    createNewsArray();
+  }, []);
   function NewsTiles() {
     return (
       <div className={styles.wrapper}>
-        {news.map((item, index) => {
+        {data.mainPage.news.map((item, index) => {
           if (index >= 5) {
             return;
           }
@@ -37,7 +49,7 @@ export function News({
             <React.Fragment key={index}>
               <a className={styles.tile} href="">
                 <div>
-                  <img src={"./assets/img/" + item.img} alt="news" />
+                  <img src={"./assets/docs/" + item.img} alt="news" />
                 </div>
                 <div className={styles.texts}>
                   <div className={styles.date}>{item.date}</div>
@@ -60,8 +72,8 @@ export function News({
       <div className={styles.container}>
         <h3 className={styles.h3}>Новости</h3>
         <NewsTiles />
-        <SecondMenu firstStateMenu={firstStateMenu} setFirstStateMenu={setFirstStateMenu} secondMenu={secondMenu} />
-        <ThirdMenu secondStateMenu={secondStateMenu} setSecondStateMenu={setSecondStateMenu} thirdMenu={thirdMenu} />
+        <SecondMenu firstStateMenu={firstStateMenu} setFirstStateMenu={setFirstStateMenu} secondMenu={data.mainPage.secondMenu} />
+        <ThirdMenu secondStateMenu={secondStateMenu} setSecondStateMenu={setSecondStateMenu} thirdMenu={data.mainPage.thirdMenu} />
 
         <div className={styles.links}>
           <a href="">

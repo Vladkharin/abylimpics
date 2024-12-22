@@ -34,7 +34,7 @@ export function MainPage() {
     <>
       <Header data={data} />
       <Information certificates={data.mainPage.certificates} />
-      <News news={data.mainPage.news} secondMenu={data.mainPage.secondMenu} thirdMenu={data.mainPage.thirdMenu} />
+      <News data={data} />
       <Footer />
     </>
   );
