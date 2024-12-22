@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { MainPage } from "./components/MainPage/MainPage";
 import { AdminPanel } from "./components/AdminPanel/AdminPanel";
 import { ParagraphPage } from "./components/ParagraphPage/ParagraphPage";
+import { useState } from "react";
 
 type NEWSMAINPAGE = {
   img: string;
@@ -71,13 +72,62 @@ export type DATA = {
 };
 
 export default function App() {
+  const [voiceHelperState, setVoiceHelperState] = useState(false);
+
+  console.log(voiceHelperState);
   return (
     <Router>
       <Routes>
-        <Route path={"/"} element={<MainPage />} />
+        <Route path={"/"} element={<MainPage voiceHelperState={voiceHelperState} setVoiceHelperState={setVoiceHelperState} />} />
         <Route path={"/admin-panel"} element={<AdminPanel />} />
-        <Route path={"/:paragraph?"} element={<ParagraphPage />} />
+        <Route
+          path={"/:paragraph?"}
+          element={<ParagraphPage voiceHelperState={voiceHelperState} setVoiceHelperState={setVoiceHelperState} />}
+        />
       </Routes>
     </Router>
   );
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export function voiceHelper(
+  event:
+    | React.MouseEvent<HTMLAnchorElement, MouseEvent>
+    | React.MouseEvent<HTMLImageElement, MouseEvent>
+    | React.MouseEvent<HTMLButtonElement, MouseEvent>
+    | React.MouseEvent<HTMLHeadingElement, MouseEvent>
+    | React.MouseEvent<HTMLParagraphElement, MouseEvent>
+    | React.MouseEvent<HTMLDivElement, MouseEvent>,
+  voiceHelperState: boolean
+) {
+  if (!voiceHelperState) {
+    return;
+  }
+
+  const targetPrev = event.target as HTMLElement;
+  let text;
+
+  if (targetPrev.localName == "a") {
+    const target = event.target as HTMLLinkElement;
+    text = target.innerText;
+  } else if (targetPrev.localName == "img") {
+    const target = event.target as HTMLImageElement;
+    text = target.alt;
+  } else if (targetPrev.localName == "button") {
+    const target = event.target as HTMLButtonElement;
+    text = target.innerText;
+  } else if (targetPrev.localName == "h1" || targetPrev.localName == "h2" || targetPrev.localName == "h3") {
+    const target = event.target as HTMLHeadingElement;
+    text = target.innerText;
+  } else if (targetPrev.localName == "p") {
+    const target = event.target as HTMLParagraphElement;
+    text = target.innerText;
+  } else if (targetPrev.localName) {
+    const target = event.target as HTMLDivElement;
+    text = target.innerText;
+  }
+  window.speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  window.speechSynthesis.speak(utterance);
 }

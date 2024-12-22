@@ -6,7 +6,13 @@ import styles from "./ParagraphPage.module.css";
 import { Footer } from "./footer/Footer";
 import getImageSize from "image-size-from-url";
 
-export function ParagraphPage() {
+export function ParagraphPage({
+  voiceHelperState,
+  setVoiceHelperState,
+}: {
+  voiceHelperState: boolean;
+  setVoiceHelperState: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const location = useLocation();
 
   const [data, setData] = useState<DATA>();
@@ -38,7 +44,13 @@ export function ParagraphPage() {
 
   return (
     <>
-      <Header data={data} setActiveParagraph={setActiveParagraph} setActiveTab={setActiveTab} />
+      <Header
+        data={data}
+        setActiveParagraph={setActiveParagraph}
+        setActiveTab={setActiveTab}
+        voiceHelperState={voiceHelperState}
+        setVoiceHelperState={setVoiceHelperState}
+      />
       <MenuParagraps />
       <ContetnTabs activeParagraph={activeParagraph} activeTab={activeTab} />
       <Footer />
@@ -190,22 +202,25 @@ export function ContetnTabs({ activeParagraph, activeTab }: { activeParagraph: P
               case "link":
                 return (
                   <a className={styles.text} key={index} href={item.link}>
-                    {item.number ? index + 1 + "." : ""} {item.name}
+                    {index + 1 + ". "} {item.name}
                   </a>
                 );
 
               case "text":
-                return item.name.split(":").map((item, index) => (
-                  <div className={styles.text} key={index} style={{ marginTop: index == 0 ? "15px" : "0" }}>
-                    {item}
-                    {index == 0 ? ":" : ""}
-                  </div>
-                ));
+                return (
+                  <p key={index} className={styles.text}>
+                    {item.name}
+                  </p>
+                );
+
               case "scroller":
                 url = "./assets/docs/";
                 return (
                   <div key={index} className={styles.scroller}>
-                    <div className={styles.text}>{item.name}</div>
+                    <div className={styles.text}>
+                      {index + 1 + ". "}
+                      {item.name}
+                    </div>
                     {item.links?.map((car, index) => (
                       <img key={index} src={url + car} alt="img" />
                     ))}

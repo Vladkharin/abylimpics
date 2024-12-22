@@ -1,24 +1,54 @@
 import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
-import { DATA, PARAGRAPHS } from "../../../App";
+import { DATA, PARAGRAPHS, voiceHelper } from "../../../App";
+import { useState } from "react";
 
 export function Header({
   data,
   setActiveParagraph,
   setActiveTab,
+  voiceHelperState,
+  setVoiceHelperState,
 }: {
   data: DATA;
   setActiveParagraph: React.Dispatch<React.SetStateAction<PARAGRAPHS | undefined>>;
   setActiveTab: React.Dispatch<React.SetStateAction<number>>;
+  voiceHelperState: boolean;
+  setVoiceHelperState: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  const [menuState, setMenuState] = useState(false);
+
   return (
     <header className={styles.header}>
       <div className={styles.wrapper}>
+        <div style={{ display: menuState ? "flex" : "none", alignItems: "center", flexDirection: "column", gap: "20px" }}>
+          <button
+            className={styles.button_voice_helper}
+            onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
+            onClick={() => (voiceHelperState ? setVoiceHelperState(false) : setVoiceHelperState(true))}
+          >
+            {voiceHelperState ? "Выключить озвучку" : "Включить озвучку"}
+          </button>
+          {/* <div>
+            <div style={{ textAlign: "center" }}>Размер текст</div>
+            <div>
+              <button>Маленький</button>
+              <button>Средний</button>
+              <button>Большой</button>
+            </div>
+          </div> */}
+        </div>
         <div className={styles.container}>
-          <a className={styles.link_for_disabled_person} href="">
-            <img src="./assets/icons/eye icon.svg" alt="" />
-            <p className={styles.text_for_disabled_person}>Версия для слабовидящих</p>
-          </a>
+          <div className={styles.link_for_disabled_person}>
+            <button
+              onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
+              onClick={() => (menuState ? setMenuState(false) : setMenuState(true))}
+              className={styles.text_for_disabled_person}
+            >
+              <img src="./assets/icons/eye icon.svg" alt="Версия для слабовидящих" />
+              Версия для слабовидящих
+            </button>
+          </div>
         </div>
         <div className={styles.main_information}>
           <div className={styles.container}>

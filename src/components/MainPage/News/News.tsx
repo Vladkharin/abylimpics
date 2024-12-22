@@ -1,22 +1,27 @@
 import React, { useEffect, useState } from "react";
 import styles from "./News.module.css";
-import { CONTENT, DATA } from "../../../App";
+import { CONTENT, DATA, voiceHelper } from "../../../App";
+import { Link } from "react-router-dom";
 
-export function News({ data }: { data: DATA }) {
+export function News({ data, voiceHelperState }: { data: DATA; voiceHelperState: boolean }) {
+  const [dataNews, setDataNews] = useState<CONTENT[]>([]);
   function createNewsArray() {
     const paragraph = data.paragraphs.filter((item) => item.name == "/News")[0];
 
     const array: CONTENT[] = [];
-    paragraph.subparagraphs.forEach((item, index) => {
+    paragraph.subparagraphs.forEach((_item, index) => {
       const sortContent = paragraph.subparagraphs[index].content.sort(compare);
 
-      console.log(sortContent);
-      // sortContent.forEach((car) => {
-      //   array.shift(car);
-      // });
+      sortContent.forEach((car) => {
+        if (array.length >= 5) {
+          return;
+        }
+
+        array.push(car);
+      });
     });
 
-    console.log(paragraph);
+    return array;
   }
 
   function compare(a: CONTENT, b: CONTENT): number {
@@ -26,41 +31,59 @@ export function News({ data }: { data: DATA }) {
 
     const arrayDateA = a.news.date.split(".");
     const arrayDateB = b.news.date.split(".");
-    Å;
     const dateA = new Date(Number(arrayDateA[2]), Number(arrayDateA[1]), Number(arrayDateA[0]));
     const dateB = new Date(Number(arrayDateB[2]), Number(arrayDateB[1]), Number(arrayDateB[0]));
 
-    console.log(dateA, dateB);
-
-    return dateB.getSeconds() - dateA.getSeconds();
+    return dateB.getTime() - dateA.getTime();
   }
 
   useEffect(() => {
-    createNewsArray();
+    setDataNews(createNewsArray());
   }, []);
   function NewsTiles() {
     return (
       <div className={styles.wrapper}>
-        {data.mainPage.news.map((item, index) => {
-          if (index >= 5) {
-            return;
+        {dataNews.map((item, index) => {
+          const subtitle = item.news?.subtitle?.filter((item) => item.type === "scroller");
+          let img = "";
+
+          console.log(subtitle);
+
+          if (subtitle?.length != 0 && subtitle) {
+            img = subtitle[0].links?.filter((_car, index) => index == 0)[0] as string;
           }
           return (
             <React.Fragment key={index}>
-              <a className={styles.tile} href="">
-                <div>
-                  <img src={"./assets/docs/" + item.img} alt="news" />
+              <div className={styles.tile}>
+                <div style={{ flexBasis: img == "" ? "0%" : "50%", display: img == "" ? "none" : "block" }}>
+                  <img
+                    onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
+                    src={"./assets/docs/" + img}
+                    alt={`Фото ${item.news?.title}`}
+                  />
                 </div>
                 <div className={styles.texts}>
-                  <div className={styles.date}>{item.date}</div>
-                  <p className={styles.descr}>{item.descr}</p>
+                  <div onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} className={styles.date}>
+                    {item.news?.date}
+                  </div>
+                  <p onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} className={styles.descr}>
+                    {item.news?.title}
+                  </p>
                 </div>
-              </a>
+              </div>
               <div className={styles.line} style={{ display: index == 4 ? "none" : "block" }} />
             </React.Fragment>
           );
         })}
-        <button className={styles.button}>Все Новости</button>
+        <button className={styles.button}>
+          <Link
+            onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
+            style={{ textDecoration: "none", color: "#0540f2" }}
+            to={"News"}
+          >
+            Все Новости
+          </Link>
+        </button>
       </div>
     );
   }
@@ -70,45 +93,59 @@ export function News({ data }: { data: DATA }) {
   return (
     <section className={styles.news}>
       <div className={styles.container}>
-        <h3 className={styles.h3}>Новости</h3>
+        <h3 onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} className={styles.h3}>
+          Новости
+        </h3>
         <NewsTiles />
-        <SecondMenu firstStateMenu={firstStateMenu} setFirstStateMenu={setFirstStateMenu} secondMenu={data.mainPage.secondMenu} />
-        <ThirdMenu secondStateMenu={secondStateMenu} setSecondStateMenu={setSecondStateMenu} thirdMenu={data.mainPage.thirdMenu} />
+        <SecondMenu
+          firstStateMenu={firstStateMenu}
+          setFirstStateMenu={setFirstStateMenu}
+          secondMenu={data.mainPage.secondMenu}
+          voiceHelperState={voiceHelperState}
+        />
+        <ThirdMenu
+          secondStateMenu={secondStateMenu}
+          setSecondStateMenu={setSecondStateMenu}
+          thirdMenu={data.mainPage.thirdMenu}
+          voiceHelperState={voiceHelperState}
+        />
 
         <div className={styles.links}>
           <a href="">
-            <img src="./assets/icons/pdd.jpg" alt="" />
+            <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./assets/icons/pdd.jpg" alt="Партнер" />
           </a>
           <a href="">
-            <img src="./assets/icons/mnvorf.svg" alt="" />
+            <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./assets/icons/mnvorf.svg" alt="Партнер" />
           </a>
           <a href="">
-            <img src="./assets/icons/mo.png" alt="" />
+            <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./assets/icons/mo.png" alt="Партнер" />
           </a>
           <a href="">
-            <img src="./assets/icons/img.jpg" alt="" />
+            <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./assets/icons/img.jpg" alt="Партнер" />
           </a>
           <a href="">
-            <img src="./assets/icons/td.png" alt="" />
+            <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./assets/icons/td.png" alt="Партнер" />
           </a>
           <a href="">
-            <img src="./assets/icons/ceil.jpg" alt="" />
+            <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./assets/icons/ceil.jpg" alt="Партнер" />
           </a>
           <a href="">
-            <img src="./assets/icons/oatk.png" alt="" />
+            <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./assets/icons/oatk.png" alt="Партнер" />
           </a>
           <div className={styles.social_links}>
-            <a href="">
-              <img src="./assets/icons/o.jpg" alt="" />
+            <a href="https://vk.com/abilympics">
+              <img
+                onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
+                src="./assets/icons/vk_blue.svg"
+                alt="вконтакте абилимпикс"
+              />
             </a>
-            <a href="">
-              <img src="./assets/icons/vk.jpg" alt="" />
-            </a>
-            <a href="">
-              <img src="./assets/icons/rutube.jpg" alt="" />
-            </a>
-            <a href="">
-              <img src="./assets/icons/yt.jpg" alt="" />
+            <a href="https://t.me/abilympics_russia">
+              <img
+                onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
+                src="./assets/icons/tg_blue.svg"
+                alt="телеграм абилимпикс"
+              />
             </a>
           </div>
         </div>
@@ -121,6 +158,7 @@ function SecondMenu({
   firstStateMenu,
   setFirstStateMenu,
   secondMenu,
+  voiceHelperState,
 }: {
   firstStateMenu: boolean;
   setFirstStateMenu: React.Dispatch<React.SetStateAction<boolean>>;
@@ -131,6 +169,7 @@ function SecondMenu({
       sentence: string;
     }[];
   };
+  voiceHelperState: boolean;
 }) {
   return (
     <div className={styles.wrapper}>
@@ -142,13 +181,19 @@ function SecondMenu({
           transition: "all 1s ease-in-out",
         }}
       >
-        <p style={{ color: firstStateMenu ? "#0540f2" : "#000000" }}>{secondMenu.title}</p>
+        <p onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} style={{ color: firstStateMenu ? "#0540f2" : "#000000" }}>
+          {secondMenu.title}
+        </p>
 
         <button
           onClick={() => (firstStateMenu ? setFirstStateMenu(false) : setFirstStateMenu(true))}
           style={{ rotate: firstStateMenu ? "180deg" : "0deg" }}
         >
-          <img src="./assets/icons/arrow.svg" alt="" />
+          <img
+            onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
+            src="./assets/icons/arrow.svg"
+            alt={firstStateMenu ? "Закрыть" : "Открыть"}
+          />
         </button>
       </div>
       <div
@@ -159,6 +204,7 @@ function SecondMenu({
           {secondMenu.menu.map((item, index) => {
             return (
               <p
+                onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
                 key={index}
                 className={styles.descr}
                 style={{ height: firstStateMenu ? "auto" : "0", margin: firstStateMenu ? "10px 0 30px 0" : "0" }}
@@ -177,6 +223,7 @@ function ThirdMenu({
   secondStateMenu,
   setSecondStateMenu,
   thirdMenu,
+  voiceHelperState,
 }: {
   secondStateMenu: boolean;
   setSecondStateMenu: React.Dispatch<React.SetStateAction<boolean>>;
@@ -187,6 +234,7 @@ function ThirdMenu({
       sentence: string;
     }[];
   };
+  voiceHelperState: boolean;
 }) {
   return (
     <div className={styles.wrapper}>
@@ -198,13 +246,19 @@ function ThirdMenu({
           transition: "all 1s ease-in-out",
         }}
       >
-        <p style={{ color: secondStateMenu ? "#0540f2" : "#000000" }}>{thirdMenu.title}</p>
+        <p onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} style={{ color: secondStateMenu ? "#0540f2" : "#000000" }}>
+          {thirdMenu.title}
+        </p>
 
         <button
           onClick={() => (secondStateMenu ? setSecondStateMenu(false) : setSecondStateMenu(true))}
           style={{ rotate: secondStateMenu ? "180deg" : "0deg" }}
         >
-          <img src="./assets/icons/arrow.svg" alt="" />
+          <img
+            onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
+            src="./assets/icons/arrow.svg"
+            alt={secondStateMenu ? "Закрыть" : "Открыть"}
+          />
         </button>
       </div>
       <div
@@ -215,6 +269,7 @@ function ThirdMenu({
           {thirdMenu.menu.map((item, index) => {
             return (
               <p
+                onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
                 key={index}
                 className={styles.descr}
                 style={{ height: secondStateMenu ? "auto" : "0", margin: secondStateMenu ? "10px 0 30px 0" : "0" }}

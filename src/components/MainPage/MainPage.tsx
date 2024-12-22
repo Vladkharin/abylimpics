@@ -5,7 +5,13 @@ import { Information } from "./Information/Information";
 import { News } from "./News/News";
 import { DATA } from "../../App";
 
-export function MainPage() {
+export function MainPage({
+  voiceHelperState,
+  setVoiceHelperState,
+}: {
+  voiceHelperState: boolean;
+  setVoiceHelperState: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const [data, setData] = useState<DATA>();
 
   async function f() {
@@ -32,10 +38,10 @@ export function MainPage() {
 
   return (
     <>
-      <Header data={data} />
-      <Information certificates={data.mainPage.certificates} />
-      <News data={data} />
-      <Footer />
+      <Header data={data} setVoiceHelperState={setVoiceHelperState} voiceHelperState={voiceHelperState} />
+      <Information certificates={data.mainPage.certificates} voiceHelperState={voiceHelperState} />
+      <News data={data} voiceHelperState={voiceHelperState} />
+      <Footer voiceHelperState={voiceHelperState} />
     </>
   );
 }

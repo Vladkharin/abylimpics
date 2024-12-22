@@ -36,6 +36,12 @@
   text-decoration: none;
   color: #000;
   margin: 0;
+  border: none;
+  background: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
 }
 
 .main_information {
@@ -45,7 +51,22 @@
   display: flex;
   align-items: center;
 }
-
+.button_voice_helper {
+  width: 275px;
+  height: 49px;
+  border: none;
+  border-radius: 10px;
+  background: #e4ebf9;
+  font-family: Jost;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 34.68px;
+  text-align: center;
+  text-underline-position: from-font;
+  -webkit-text-decoration-skip-ink: none;
+  text-decoration-skip-ink: none;
+  color: #0540f2;
+}
 .main_information_wrapper {
   display: flex;
   justify-content: space-between;
