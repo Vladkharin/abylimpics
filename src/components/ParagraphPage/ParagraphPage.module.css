@@ -63,13 +63,21 @@
 .left {
   color: #000;
   position: absolute;
-  left: 15px;
+  left: 25px;
   top: 50%;
   font-size: 40px;
   border: none;
   background: none;
   cursor: pointer;
   transform: translate(-50%, -50%);
+}
+
+.gallery_wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
 }
 
 .text {
@@ -102,6 +110,7 @@
 .texts {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .date {

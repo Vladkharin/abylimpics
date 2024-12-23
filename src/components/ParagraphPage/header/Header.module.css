@@ -24,6 +24,23 @@
   height: 17px;
 }
 
+.button_voice_helper {
+  width: 275px;
+  height: 49px;
+  border: none;
+  border-radius: 10px;
+  background: #e4ebf9;
+  font-family: Jost;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 34.68px;
+  text-align: center;
+  text-underline-position: from-font;
+  -webkit-text-decoration-skip-ink: none;
+  text-decoration-skip-ink: none;
+  color: #0540f2;
+}
+
 .text_for_disabled_person {
   width: auto;
   font-family: Jost;

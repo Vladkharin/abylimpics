@@ -74,7 +74,6 @@ export type DATA = {
 export default function App() {
   const [voiceHelperState, setVoiceHelperState] = useState(false);
 
-  console.log(voiceHelperState);
   return (
     <Router>
       <Routes>

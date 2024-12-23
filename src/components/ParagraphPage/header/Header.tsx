@@ -54,11 +54,11 @@ export function Header({
           <div className={styles.container}>
             <div className={styles.main_information_wrapper}>
               <div className={styles.logo}>
-                <Link to={"/"}>
-                  <img src="./assets/icons/logo.svg" alt="" />
+                <Link onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} to={"/"}>
+                  <img src="./assets/icons/logo.svg" alt="Логотип" />
                 </Link>
               </div>
-              <Nav data={data} setActiveParagraph={setActiveParagraph} setActiveTab={setActiveTab} />
+              <Nav data={data} setActiveParagraph={setActiveParagraph} setActiveTab={setActiveTab} voiceHelperState={voiceHelperState} />
 
               <div className={styles.main_information_inner}></div>
             </div>
@@ -73,15 +73,18 @@ function Nav({
   data,
   setActiveParagraph,
   setActiveTab,
+  voiceHelperState,
 }: {
   data: DATA;
   setActiveParagraph: React.Dispatch<React.SetStateAction<PARAGRAPHS | undefined>>;
   setActiveTab: React.Dispatch<React.SetStateAction<number>>;
+  voiceHelperState: boolean;
 }) {
   return (
     <nav className={styles.nav}>
       {data.mainPage.paragraphs.map((item: { name: string; link: string }, index: number) => (
         <Link
+          onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
           key={index}
           to={`/${item.link}`}
           onClick={() => {

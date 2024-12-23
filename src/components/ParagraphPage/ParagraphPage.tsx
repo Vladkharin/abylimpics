@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import { DATA, NEWS, PARAGRAPHS } from "../../App";
+import { DATA, NEWS, PARAGRAPHS, voiceHelper } from "../../App";
 import { Header } from "./header/Header";
 import styles from "./ParagraphPage.module.css";
-import { Footer } from "./footer/Footer";
+// import { Footer } from "./footer/Footer";
 import getImageSize from "image-size-from-url";
 
 export function ParagraphPage({
@@ -52,8 +52,8 @@ export function ParagraphPage({
         setVoiceHelperState={setVoiceHelperState}
       />
       <MenuParagraps />
-      <ContetnTabs activeParagraph={activeParagraph} activeTab={activeTab} />
-      <Footer />
+      <ContetnTabs activeParagraph={activeParagraph} activeTab={activeTab} voiceHelperState={voiceHelperState} data={data} />
+      {/* <Footer voiceHelperState={voiceHelperState} /> */}
     </>
   );
 
@@ -68,7 +68,11 @@ export function ParagraphPage({
           <div className={styles.wrapper}>
             {activeParagraph[0].subparagraphs.map((item, index) => (
               <React.Fragment key={index}>
-                <button onClick={() => setActiveTab(index)} className={`${styles.button} ${activeTab == index ? styles.underline : ""}`}>
+                <button
+                  onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
+                  onClick={() => setActiveTab(index)}
+                  className={`${styles.button} ${activeTab == index ? styles.underline : ""}`}
+                >
                   {item.title}
                 </button>
               </React.Fragment>
@@ -80,12 +84,12 @@ export function ParagraphPage({
   }
 }
 
-function ImageComponent({ url }: { url: string }) {
+function ImageComponent({ url, voiceHelperState, index }: { url: string; voiceHelperState: boolean; index: number }) {
   const [size, setSize] = useState("");
 
   useEffect(() => {
-    xxx();
-  }, []);
+    editState();
+  });
 
   async function getImageData() {
     const { width, height } = await getImageSize(url);
@@ -97,26 +101,31 @@ function ImageComponent({ url }: { url: string }) {
     }
   }
 
-  async function xxx() {
+  async function editState() {
     const state = await getImageData();
 
     setSize(state);
   }
 
   return (
-    <div style={{ width: "1180px", height: "800px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-      <img className={size == "vert" ? styles.vert : styles.gor} src={url} alt="img" />
+    <div key={index} style={{ width: "1180px", height: "800px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+      <img
+        onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
+        className={size == "vert" ? styles.vert : styles.gor}
+        src={url}
+        alt="Фото"
+      />
     </div>
   );
 }
 
-function Scroller({ news }: { news: NEWS | undefined }) {
+function Scroller({ news, voiceHelperState, index }: { news: NEWS | undefined; voiceHelperState: boolean; index: number }) {
   const [countImgs, setCountImgs] = useState<number>(0);
   const [activeImg, setActiveImg] = useState(0);
   const url = "./assets/docs/";
 
   return (
-    <div className={styles.carousel}>
+    <div key={index} className={styles.carousel}>
       <div style={{ width: `${countImgs * 1180}` + "px", transform: `translateX(-${activeImg * 1180}px)` }} className={styles.inner}>
         {news?.subtitle?.map((item) => {
           if (item.type == "scroller") {
@@ -127,10 +136,10 @@ function Scroller({ news }: { news: NEWS | undefined }) {
               }
 
               setCountImgs(item.links.length);
-            }, []);
+            });
 
-            const arr = item.links?.map((car) => {
-              return <ImageComponent url={url + car} />;
+            const arr = item.links?.map((car, index) => {
+              return <ImageComponent url={url + car} voiceHelperState={voiceHelperState} index={index} />;
             });
 
             return arr;
@@ -138,6 +147,7 @@ function Scroller({ news }: { news: NEWS | undefined }) {
         })}
       </div>
       <button
+        onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
         onClick={() => {
           if (activeImg >= countImgs - 1) {
             setActiveImg(0);
@@ -146,11 +156,13 @@ function Scroller({ news }: { news: NEWS | undefined }) {
           }
         }}
         className={styles.right}
+        style={{ display: countImgs == 1 ? "none" : "block" }}
       >
         {" "}
         &gt;{" "}
       </button>
       <button
+        onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
         onClick={() => {
           if (activeImg <= 0) {
             setActiveImg(countImgs - 1);
@@ -159,6 +171,7 @@ function Scroller({ news }: { news: NEWS | undefined }) {
           }
         }}
         className={styles.left}
+        style={{ display: countImgs == 1 ? "none" : "block" }}
       >
         {" "}
         &lt;{" "}
@@ -167,9 +180,56 @@ function Scroller({ news }: { news: NEWS | undefined }) {
   );
 }
 
-export function ContetnTabs({ activeParagraph, activeTab }: { activeParagraph: PARAGRAPHS | undefined; activeTab: number }) {
+function Gallery({ data }: { data: DATA }) {
+  const newsParagraph = data.paragraphs.filter((item) => item.name == "/News");
+
+  const arr: string[] = [];
+
+  newsParagraph[0].subparagraphs.forEach((item) => {
+    item.content.forEach((car) => {
+      car.news?.subtitle?.forEach((subtitle) => {
+        if (subtitle.type == "scroller") {
+          subtitle.links?.forEach((img) => {
+            arr.push(img);
+          });
+        }
+      });
+    });
+  });
+
+  return (
+    <div className={styles.gallery_wrapper}>
+      {arr.map((item, index) => (
+        <img style={{ maxWidth: "100%" }} key={index} src={`./assets/docs/${item}`} alt="Фото" />
+      ))}
+    </div>
+  );
+}
+
+export function ContetnTabs({
+  activeParagraph,
+  activeTab,
+  voiceHelperState,
+  data,
+}: {
+  activeParagraph: PARAGRAPHS | undefined;
+  activeTab: number;
+  voiceHelperState: boolean;
+  data: DATA;
+}) {
   if (!activeParagraph) {
     return;
+  }
+
+  if (activeParagraph[0].name == "/Gallery") {
+    return (
+      <section className={styles.content}>
+        <div className={styles.container}>
+          {" "}
+          <Gallery data={data} />
+        </div>
+      </section>
+    );
   }
   return (
     <section className={styles.content}>
@@ -182,7 +242,12 @@ export function ContetnTabs({ activeParagraph, activeTab }: { activeParagraph: P
               case "doc":
                 url = "./assets/docs/";
                 return (
-                  <a className={styles.text} key={index} href={url + item.link}>
+                  <a
+                    onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
+                    className={styles.text}
+                    key={index}
+                    href={url + item.link}
+                  >
                     {index + 1}. {item.name}
                   </a>
                 );
@@ -192,7 +257,11 @@ export function ContetnTabs({ activeParagraph, activeTab }: { activeParagraph: P
                 return (
                   <React.Fragment key={index}>
                     <div className={styles.text}>
-                      <a style={{ textDecoration: "none", color: "#000000" }} href={url + item.link}>
+                      <a
+                        onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
+                        style={{ textDecoration: "none", color: "#000000" }}
+                        href={url + item.link}
+                      >
                         {index + 1}. {item.name}
                       </a>
                     </div>
@@ -208,7 +277,7 @@ export function ContetnTabs({ activeParagraph, activeTab }: { activeParagraph: P
 
               case "text":
                 return (
-                  <p key={index} className={styles.text}>
+                  <p onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} key={index} className={styles.text}>
                     {item.name}
                   </p>
                 );
@@ -222,7 +291,7 @@ export function ContetnTabs({ activeParagraph, activeTab }: { activeParagraph: P
                       {item.name}
                     </div>
                     {item.links?.map((car, index) => (
-                      <img key={index} src={url + car} alt="img" />
+                      <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} key={index} src={url + car} alt="Фото" />
                     ))}
                   </div>
                 );
@@ -230,13 +299,17 @@ export function ContetnTabs({ activeParagraph, activeTab }: { activeParagraph: P
                 return (
                   <React.Fragment key={index}>
                     <div className={styles.texts}>
-                      <div className={styles.date}>{item.news?.date}</div>
-                      <div className={styles.title}>{item.news?.title}</div>
+                      <div onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} className={styles.date}>
+                        {item.news?.date}
+                      </div>
+                      <div onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} className={styles.title}>
+                        {item.news?.title}
+                      </div>
                       {item.news?.subtitle?.map((car, index) => {
                         switch (car.type) {
                           case "text":
                             return (
-                              <p key={index} className={styles.descr}>
+                              <p onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} key={index} className={styles.descr}>
                                 {car.name}
                               </p>
                             );
@@ -244,26 +317,44 @@ export function ContetnTabs({ activeParagraph, activeTab }: { activeParagraph: P
                           case "pdf":
                             url = "./assets/docs/";
                             return (
-                              <a target="_blank" key={index} href={url + car.link} className={styles.link_news}>
+                              <a
+                                onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
+                                target="_blank"
+                                key={index}
+                                href={url + car.link}
+                                className={styles.link_news}
+                              >
                                 {car.name}
                               </a>
                             );
                           case "link":
                             return (
-                              <a target="_blank" key={index} href={car.link} className={styles.link_news}>
+                              <a
+                                onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
+                                target="_blank"
+                                key={index}
+                                href={car.link}
+                                className={styles.link_news}
+                              >
                                 {car.name}
                               </a>
                             );
                           case "doc":
                             url = "./assets/docs/";
                             return (
-                              <a target="_blank" key={index} href={url + car.link} className={styles.link_news}>
+                              <a
+                                onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
+                                target="_blank"
+                                key={index}
+                                href={url + car.link}
+                                className={styles.link_news}
+                              >
                                 {car.name}
                               </a>
                             );
                           case "scroller": {
                             url = "./assets/docs/";
-                            return <Scroller news={item.news} />;
+                            return <Scroller news={item.news} voiceHelperState={voiceHelperState} index={index} />;
                           }
 
                           case "video": {
