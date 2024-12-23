@@ -39,6 +39,8 @@ export function AdminPanel() {
     return;
   }
 
+  console.log(radioState);
+
   return (
     <section className={styles.adminPanel} style={{ height: auth ? "auto" : "100vh" }}>
       <div className={styles.container}>
@@ -163,7 +165,7 @@ export function AdminPanel() {
                 data,
                 setData,
                 buttonState,
-                "addNews",
+                radioState,
                 paragraphsState,
                 0,
                 paragraphStateInForm

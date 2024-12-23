@@ -237,6 +237,13 @@ export function ContetnTabs({
         <div className={styles.content_wrapper}>
           {activeParagraph[0].subparagraphs[activeTab].content.map((item, index) => {
             let url = "";
+            let indexNumber = index;
+
+            if (item.type == "news") {
+              indexNumber -= 1;
+            } else {
+              indexNumber += 1;
+            }
 
             switch (item.type) {
               case "doc":
@@ -248,7 +255,7 @@ export function ContetnTabs({
                     key={index}
                     href={url + item.link}
                   >
-                    {index + 1}. {item.name}
+                    {indexNumber}. {item.name}
                   </a>
                 );
 
@@ -262,7 +269,7 @@ export function ContetnTabs({
                         style={{ textDecoration: "none", color: "#000000" }}
                         href={url + item.link}
                       >
-                        {index + 1}. {item.name}
+                        {indexNumber}. {item.name}
                       </a>
                     </div>
                     <iframe className={styles.iframe} src={url + item.link}></iframe>
@@ -271,7 +278,7 @@ export function ContetnTabs({
               case "link":
                 return (
                   <a className={styles.text} key={index} href={item.link}>
-                    {index + 1 + ". "} {item.name}
+                    {indexNumber + ". "} {item.name}
                   </a>
                 );
 
@@ -287,7 +294,7 @@ export function ContetnTabs({
                 return (
                   <div key={index} className={styles.scroller}>
                     <div className={styles.text}>
-                      {index + 1 + ". "}
+                      {indexNumber + ". "}
                       {item.name}
                     </div>
                     {item.links?.map((car, index) => (
@@ -296,6 +303,7 @@ export function ContetnTabs({
                   </div>
                 );
               case "news":
+                indexNumber -= 1;
                 return (
                   <React.Fragment key={index}>
                     <div className={styles.texts}>
