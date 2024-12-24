@@ -231,8 +231,11 @@ export function ContetnTabs({
       </section>
     );
   }
+  let sortContent = activeParagraph[0].subparagraphs[activeTab].content;
 
-  const sortContent = activeParagraph[0].subparagraphs[activeTab].content.sort(compare);
+  if (activeParagraph[0].name == "/News") {
+    sortContent = activeParagraph[0].subparagraphs[activeTab].content.sort(compare);
+  }
 
   function compare(a: CONTENT, b: CONTENT): number {
     if (!a.news || !b.news) {
