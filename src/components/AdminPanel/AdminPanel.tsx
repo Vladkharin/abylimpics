@@ -665,6 +665,35 @@ function addNews(data: DATA, paragraphsState: string, titleSubparagraph: string,
   return [returnData, arrayFile];
 }
 
+// function addNotNews(data: DATA, paragraphsState: string, titleSubparagraph: string, event: React.FormEvent<HTMLFormElement>): DATA {
+//   const othersElementsParagraph = data.paragraphs.filter((item) => item.name !== "/" + paragraphsState);
+//   const currentElementParagraph = data.paragraphs.filter((item) => item.name == "/" + paragraphsState)[0];
+//   const index = currentElementParagraph.subparagraphs.findIndex((el) => el.title == titleSubparagraph);
+//   const otherElementsAreSmallerThanThisOneSubparagraph = currentElementParagraph.subparagraphs.filter((_item, indexEl) => indexEl < index);
+//   const otherElementsAreBiggestThanThisOneSubparagraph = currentElementParagraph.subparagraphs.filter((_item, indexEl) => indexEl > index);
+//   const currentElementSubparagraph = currentElementParagraph.subparagraphs[index];
+//   const othersElementsContent = currentElementSubparagraph.content;
+
+//   const returnData = {
+//     ...data,
+//     paragraphs: [
+//       ...othersElementsParagraph,
+//       {
+//         name: currentElementParagraph.name,
+//         subparagraphs: [
+//           ...otherElementsAreSmallerThanThisOneSubparagraph,
+//           {
+//             title: currentElementSubparagraph.title,
+//             name: currentElementSubparagraph.name,
+//             content: [...othersElementsContent, obj],
+//           },
+//           ...otherElementsAreBiggestThanThisOneSubparagraph,
+//         ],
+//       },
+//     ],
+//   };
+// }
+
 async function editFile(
   setCountInputs: React.Dispatch<React.SetStateAction<number>>,
   setAddFormState: React.Dispatch<React.SetStateAction<boolean>>,
@@ -709,6 +738,9 @@ async function editFile(
           files = per[1] as File[];
           break;
         }
+        // case "addNotNews": {
+        //   const per = addNotNews(data, paragraphsState, titleSubparagraph, event);
+        // }
       }
   }
 

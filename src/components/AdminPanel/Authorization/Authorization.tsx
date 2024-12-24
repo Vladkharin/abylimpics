@@ -18,14 +18,32 @@ export function Authorization({ auth, setAuth }: PROPS) {
       [name]: value,
     });
   };
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (formData.login == "admin" && formData.password == "12345") {
+    const newFormdata = new FormData();
+
+    newFormdata.set("login", formData.login);
+    newFormdata.set("password", formData.password);
+
+    const response = await fetch("./verify.php", {
+      method: "POST",
+      body: newFormdata,
+    });
+
+    if (response.status) {
       setAuth(true);
     } else {
       alert("Вы ввели не правильный логин или пароль");
     }
+
+    // if (response.status)
+
+    // if (formData.login == "admin" && formData.password == "12345") {
+    //   setAuth(true);
+    // } else {
+    //   alert("Вы ввели не правильный логин или пароль");
+    // }
   }
 
   async function f() {

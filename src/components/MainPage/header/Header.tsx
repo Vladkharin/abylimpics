@@ -40,7 +40,7 @@ export function Header({
               onClick={() => (menuState ? setMenuState(false) : setMenuState(true))}
               className={styles.text_for_disabled_person}
             >
-              <img src="./assets/icons/eye icon.svg" alt="Версия для слабовидящих" />
+              <img src="./icons/eye icon.svg" alt="Версия для слабовидящих" />
               Версия для слабовидящих
             </button>
           </div>
@@ -50,7 +50,7 @@ export function Header({
             <div className={styles.main_information_wrapper}>
               <div className={styles.logo}>
                 <Link to={"/"}>
-                  <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./assets/icons/logo.svg" alt="Логотип" />
+                  <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./icons/logo.svg" alt="Логотип" />
                 </Link>
               </div>
               <Nav data={data} voiceHelperState={voiceHelperState} />

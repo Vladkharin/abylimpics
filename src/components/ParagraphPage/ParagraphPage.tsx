@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import { DATA, NEWS, PARAGRAPHS, voiceHelper } from "../../App";
+import { CONTENT, DATA, NEWS, PARAGRAPHS, voiceHelper } from "../../App";
 import { Header } from "./header/Header";
 import styles from "./ParagraphPage.module.css";
 // import { Footer } from "./footer/Footer";
@@ -122,7 +122,7 @@ function ImageComponent({ url, voiceHelperState, index }: { url: string; voiceHe
 function Scroller({ news, voiceHelperState, index }: { news: NEWS | undefined; voiceHelperState: boolean; index: number }) {
   const [countImgs, setCountImgs] = useState<number>(0);
   const [activeImg, setActiveImg] = useState(0);
-  const url = "./assets/docs/";
+  const url = "./docs/";
 
   return (
     <div key={index} className={styles.carousel}>
@@ -200,7 +200,7 @@ function Gallery({ data }: { data: DATA }) {
   return (
     <div className={styles.gallery_wrapper}>
       {arr.map((item, index) => (
-        <img style={{ maxWidth: "100%" }} key={index} src={`./assets/docs/${item}`} alt="Фото" />
+        <img style={{ maxWidth: "100%" }} key={index} src={`./docs/${item}`} alt="Фото" />
       ))}
     </div>
   );
@@ -231,23 +231,31 @@ export function ContetnTabs({
       </section>
     );
   }
+
+  const sortContent = activeParagraph[0].subparagraphs[activeTab].content.sort(compare);
+
+  function compare(a: CONTENT, b: CONTENT): number {
+    if (!a.news || !b.news) {
+      return 0;
+    }
+
+    const arrayDateA = a.news.date.split(".");
+    const arrayDateB = b.news.date.split(".");
+    const dateA = new Date(Number(arrayDateA[2]), Number(arrayDateA[1]), Number(arrayDateA[0]));
+    const dateB = new Date(Number(arrayDateB[2]), Number(arrayDateB[1]), Number(arrayDateB[0]));
+
+    return dateB.getTime() - dateA.getTime();
+  }
   return (
     <section className={styles.content}>
       <div className={styles.container}>
         <div className={styles.content_wrapper}>
-          {activeParagraph[0].subparagraphs[activeTab].content.map((item, index) => {
+          {sortContent.map((item, index) => {
             let url = "";
-            let indexNumber = index;
-
-            if (item.type == "news") {
-              indexNumber -= 1;
-            } else {
-              indexNumber += 1;
-            }
 
             switch (item.type) {
               case "doc":
-                url = "./assets/docs/";
+                url = "./docs/";
                 return (
                   <a
                     onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
@@ -255,12 +263,12 @@ export function ContetnTabs({
                     key={index}
                     href={url + item.link}
                   >
-                    {indexNumber}. {item.name}
+                    {item.name}
                   </a>
                 );
 
               case "pdf":
-                url = "./assets/docs/";
+                url = "./docs/";
                 return (
                   <React.Fragment key={index}>
                     <div className={styles.text}>
@@ -269,7 +277,7 @@ export function ContetnTabs({
                         style={{ textDecoration: "none", color: "#000000" }}
                         href={url + item.link}
                       >
-                        {indexNumber}. {item.name}
+                        {item.name}
                       </a>
                     </div>
                     <iframe className={styles.iframe} src={url + item.link}></iframe>
@@ -278,7 +286,7 @@ export function ContetnTabs({
               case "link":
                 return (
                   <a className={styles.text} key={index} href={item.link}>
-                    {indexNumber + ". "} {item.name}
+                    {item.name}
                   </a>
                 );
 
@@ -290,20 +298,16 @@ export function ContetnTabs({
                 );
 
               case "scroller":
-                url = "./assets/docs/";
+                url = "./docs/";
                 return (
                   <div key={index} className={styles.scroller}>
-                    <div className={styles.text}>
-                      {indexNumber + ". "}
-                      {item.name}
-                    </div>
+                    <div className={styles.text}>{item.name}</div>
                     {item.links?.map((car, index) => (
                       <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} key={index} src={url + car} alt="Фото" />
                     ))}
                   </div>
                 );
               case "news":
-                indexNumber -= 1;
                 return (
                   <React.Fragment key={index}>
                     <div className={styles.texts}>
@@ -323,7 +327,7 @@ export function ContetnTabs({
                             );
 
                           case "pdf":
-                            url = "./assets/docs/";
+                            url = "./docs/";
                             return (
                               <a
                                 onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
@@ -348,7 +352,7 @@ export function ContetnTabs({
                               </a>
                             );
                           case "doc":
-                            url = "./assets/docs/";
+                            url = "./docs/";
                             return (
                               <a
                                 onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
@@ -361,7 +365,7 @@ export function ContetnTabs({
                               </a>
                             );
                           case "scroller": {
-                            url = "./assets/docs/";
+                            url = "./docs/";
                             return <Scroller news={item.news} voiceHelperState={voiceHelperState} index={index} />;
                           }
 

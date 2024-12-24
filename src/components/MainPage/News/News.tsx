@@ -58,7 +58,7 @@ export function News({ data, voiceHelperState }: { data: DATA; voiceHelperState:
                 <div style={{ flexBasis: img == "" ? "0%" : "50%", display: img == "" ? "none" : "block" }}>
                   <img
                     onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
-                    src={"./assets/docs/" + img}
+                    src={"./docs/" + img}
                     alt={`Фото ${item.news?.title}`}
                   />
                 </div>
@@ -112,40 +112,32 @@ export function News({ data, voiceHelperState }: { data: DATA; voiceHelperState:
 
         <div className={styles.links}>
           <a href="">
-            <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./assets/icons/pdd.jpg" alt="Партнер" />
+            <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./icons/pdd.jpg" alt="Партнер" />
           </a>
           <a href="">
-            <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./assets/icons/mnvorf.svg" alt="Партнер" />
+            <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./icons/mnvorf.svg" alt="Партнер" />
           </a>
           <a href="">
-            <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./assets/icons/mo.png" alt="Партнер" />
+            <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./icons/mo.png" alt="Партнер" />
           </a>
           <a href="">
-            <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./assets/icons/img.jpg" alt="Партнер" />
+            <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./icons/img.jpg" alt="Партнер" />
           </a>
           <a href="">
-            <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./assets/icons/td.png" alt="Партнер" />
+            <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./icons/td.png" alt="Партнер" />
           </a>
           <a href="">
-            <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./assets/icons/ceil.jpg" alt="Партнер" />
+            <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./icons/ceil.jpg" alt="Партнер" />
           </a>
           <a href="">
-            <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./assets/icons/oatk.png" alt="Партнер" />
+            <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./icons/oatk.png" alt="Партнер" />
           </a>
           <div className={styles.social_links}>
             <a href="https://vk.com/abilympics">
-              <img
-                onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
-                src="./assets/icons/vk_blue.svg"
-                alt="вконтакте абилимпикс"
-              />
+              <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./icons/vk_blue.svg" alt="вконтакте абилимпикс" />
             </a>
             <a href="https://t.me/abilympics_russia">
-              <img
-                onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
-                src="./assets/icons/tg_blue.svg"
-                alt="телеграм абилимпикс"
-              />
+              <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src="./icons/tg_blue.svg" alt="телеграм абилимпикс" />
             </a>
           </div>
         </div>
@@ -191,7 +183,7 @@ function SecondMenu({
         >
           <img
             onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
-            src="./assets/icons/arrow.svg"
+            src="./icons/arrow.svg"
             alt={firstStateMenu ? "Закрыть" : "Открыть"}
           />
         </button>
@@ -256,7 +248,7 @@ function ThirdMenu({
         >
           <img
             onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
-            src="./assets/icons/arrow.svg"
+            src="./icons/arrow.svg"
             alt={secondStateMenu ? "Закрыть" : "Открыть"}
           />
         </button>
