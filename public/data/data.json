@@ -1491,7 +1491,7 @@
         {
           "title": "Материалы, способствующие популяризации движения Абилимпикс в Оренбургской области",
           "name": "Materials promoting the Abilympics movement in the Orenburg region",
-          "content": []
+          "content": [{ "name": "1. Ссылка на рубрики", "type": "link", "link": "https://abilympics-russia.ru/rubrics/ " }]
         }
       ]
     },
