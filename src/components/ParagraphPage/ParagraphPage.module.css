@@ -213,4 +213,15 @@
   .container {
     width: 300px;
   }
+
+  .title {
+    font-family: Jost;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 34.68px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    margin-bottom: 15px;
+  }
 }

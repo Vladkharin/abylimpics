@@ -18,6 +18,7 @@ export function ParagraphPage({
   const [data, setData] = useState<DATA>();
   const [activeTab, setActiveTab] = useState(0);
   const [activeParagraph, setActiveParagraph] = useState<PARAGRAPHS>();
+  const [windowWidth, setWindowWidth] = useState(0);
 
   async function f() {
     const response = await fetch("./data/data.json");
@@ -36,6 +37,7 @@ export function ParagraphPage({
 
   useEffect(() => {
     changeState();
+    setWindowWidth(window.innerWidth);
   }, []);
 
   if (!data) {
@@ -52,7 +54,13 @@ export function ParagraphPage({
         setVoiceHelperState={setVoiceHelperState}
       />
       <MenuParagraps />
-      <ContetnTabs activeParagraph={activeParagraph} activeTab={activeTab} voiceHelperState={voiceHelperState} data={data} />
+      <ContetnTabs
+        activeParagraph={activeParagraph}
+        activeTab={activeTab}
+        voiceHelperState={voiceHelperState}
+        data={data}
+        windowWidth={windowWidth}
+      />
       {/* <Footer voiceHelperState={voiceHelperState} /> */}
     </>
   );
@@ -84,7 +92,17 @@ export function ParagraphPage({
   }
 }
 
-function ImageComponent({ url, voiceHelperState, index }: { url: string; voiceHelperState: boolean; index: number }) {
+function ImageComponent({
+  url,
+  voiceHelperState,
+  index,
+  windowWidth,
+}: {
+  url: string;
+  voiceHelperState: boolean;
+  index: number;
+  windowWidth: number;
+}) {
   const [size, setSize] = useState("");
 
   useEffect(() => {
@@ -107,8 +125,31 @@ function ImageComponent({ url, voiceHelperState, index }: { url: string; voiceHe
     setSize(state);
   }
 
+  let width = 0;
+  let height = 0;
+
+  if (windowWidth >= 320 && windowWidth < 480) {
+    width = 300;
+    height = 400;
+  } else if (windowWidth >= 480 && windowWidth < 768) {
+    width = 400;
+    height = 530;
+  } else if (windowWidth >= 768 && windowWidth < 993) {
+    width = 700;
+    height = 700;
+  } else if (windowWidth >= 993 && windowWidth < 1200) {
+    width = 990;
+    height = 750;
+  } else {
+    width = 1180;
+    height = 800;
+  }
+
   return (
-    <div key={index} style={{ width: "1180px", height: "800px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+    <div
+      key={index}
+      style={{ width: width + "px", height: height + "px", display: "flex", justifyContent: "center", alignItems: "center" }}
+    >
       <img
         onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
         className={size == "vert" ? styles.vert : styles.gor}
@@ -119,14 +160,38 @@ function ImageComponent({ url, voiceHelperState, index }: { url: string; voiceHe
   );
 }
 
-function Scroller({ news, voiceHelperState, index }: { news: NEWS | undefined; voiceHelperState: boolean; index: number }) {
+function Scroller({
+  news,
+  voiceHelperState,
+  index,
+  windowWidth,
+}: {
+  news: NEWS | undefined;
+  voiceHelperState: boolean;
+  index: number;
+  windowWidth: number;
+}) {
   const [countImgs, setCountImgs] = useState<number>(0);
   const [activeImg, setActiveImg] = useState(0);
   const url = "./docs/";
 
+  let width = 0;
+
+  if (windowWidth >= 320 && windowWidth < 480) {
+    width = 300;
+  } else if (windowWidth >= 480 && windowWidth < 768) {
+    width = 400;
+  } else if (windowWidth >= 768 && windowWidth < 993) {
+    width = 700;
+  } else if (windowWidth >= 993 && windowWidth < 1200) {
+    width = 990;
+  } else {
+    width = 1180;
+  }
+
   return (
-    <div key={index} className={styles.carousel}>
-      <div style={{ width: `${countImgs * 1180}` + "px", transform: `translateX(-${activeImg * 1180}px)` }} className={styles.inner}>
+    <div key={index} className={styles.carousel} style={{ width: width }}>
+      <div style={{ width: `${countImgs * width}` + "px", transform: `translateX(-${activeImg * width}px)` }} className={styles.inner}>
         {news?.subtitle?.map((item) => {
           if (item.type == "scroller") {
             // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -139,7 +204,7 @@ function Scroller({ news, voiceHelperState, index }: { news: NEWS | undefined; v
             });
 
             const arr = item.links?.map((car, index) => {
-              return <ImageComponent url={url + car} voiceHelperState={voiceHelperState} index={index} />;
+              return <ImageComponent url={url + car} voiceHelperState={voiceHelperState} index={index} windowWidth={windowWidth} />;
             });
 
             return arr;
@@ -211,11 +276,13 @@ export function ContetnTabs({
   activeTab,
   voiceHelperState,
   data,
+  windowWidth,
 }: {
   activeParagraph: PARAGRAPHS | undefined;
   activeTab: number;
   voiceHelperState: boolean;
   data: DATA;
+  windowWidth: number;
 }) {
   if (!activeParagraph) {
     return;
@@ -369,7 +436,9 @@ export function ContetnTabs({
                             );
                           case "scroller": {
                             url = "./docs/";
-                            return <Scroller news={item.news} voiceHelperState={voiceHelperState} index={index} />;
+                            return (
+                              <Scroller news={item.news} voiceHelperState={voiceHelperState} index={index} windowWidth={windowWidth} />
+                            );
                           }
 
                           case "video": {
