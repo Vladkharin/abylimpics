@@ -16,7 +16,6 @@ if (count($files) != 0) {
         $uploadfile = $uploaddir . basename($array['name']);
 
         move_uploaded_file($array['tmp_name'], $uploadfile);
-
     }
 }
 

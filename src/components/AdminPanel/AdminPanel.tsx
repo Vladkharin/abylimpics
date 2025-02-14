@@ -633,8 +633,6 @@ function addNews(data: DATA, paragraphsState: string, titleSubparagraph: string,
     obj.news.subtitle = array;
   }
 
-  console.log(obj);
-
   const othersElementsParagraph = data.paragraphs.filter((item) => item.name !== "/" + paragraphsState);
   const currentElementParagraph = data.paragraphs.filter((item) => item.name == "/" + paragraphsState)[0];
   const index = currentElementParagraph.subparagraphs.findIndex((el) => el.title == titleSubparagraph);
@@ -692,6 +690,8 @@ function addNews(data: DATA, paragraphsState: string, titleSubparagraph: string,
 //       },
 //     ],
 //   };
+
+//   return returnData;
 // }
 
 async function editFile(
@@ -732,7 +732,7 @@ async function editFile(
         case "News":
           dataEl = editNews(data, indexEl, paragraphsState, index);
           break;
-        case "addNews": {
+        case "news": {
           const per = addNews(data, paragraphsState, titleSubparagraph, event);
           dataEl = per[0] as DATA;
           files = per[1] as File[];
@@ -740,11 +740,18 @@ async function editFile(
         }
         // case "addNotNews": {
         //   const per = addNotNews(data, paragraphsState, titleSubparagraph, event);
+        //   dataEl = per[0] as Data;
+        //   files = per[1] as File[];
+        //   break;
         // }
       }
   }
 
-  if (!dataEl || (!files && paragraphKey == "addNews")) {
+  console.log(event);
+
+  console.log(dataEl, pageKey, paragraphKey);
+
+  if (!dataEl) {
     return;
   }
 
@@ -757,6 +764,8 @@ async function editFile(
   files?.forEach((file, index) => {
     formData.append(`file${index}`, file, file.name);
   });
+
+  console.log(1);
 
   const response = await fetch(URLAPI, {
     method: "POST",

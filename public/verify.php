@@ -5,16 +5,17 @@ session_start();
 $data = $_POST;
 
 
-$db = new PDO('mysql:host=localhost;dbname=abilimpics', 'root', 'root');
+$db = new PDO('mysql:host=localhost;dbname=u2947730_default', 'u2947730_default', 'Gp7uwu9FY7LEpm4H');
 
 $query = $db->query('SELECT * FROM users')->fetch();
 
-var_dump($data);
+// var_dump($data);
+// var_dump(($query));
 
 
-if ($query[1] == $data['login'] && $query[2] == $data['password']) {
-    return json_encode(['success' => true]);
+if ($query['username'] === $data['login'] && $query['password'] === $data['password']) {
+    echo json_encode(['success' => True]);
 } else {
-    return json_encode(['success' => false]);
+    echo json_encode(['success' => False]);
 }
 

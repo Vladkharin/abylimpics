@@ -26,24 +26,31 @@ export function Authorization({ auth, setAuth }: PROPS) {
     newFormdata.set("login", formData.login);
     newFormdata.set("password", formData.password);
 
+    console.log(newFormdata);
+
+    setAuth(true);
+
     const response = await fetch("./verify.php", {
       method: "POST",
       body: newFormdata,
     });
 
-    if (response.status) {
+    const data = await response.json();
+
+    console.log(data);
+
+    if (data.success) {
       setAuth(true);
     } else {
       alert("Вы ввели не правильный логин или пароль");
     }
 
-    // if (response.status)
-
-    // if (formData.login == "admin" && formData.password == "12345") {
-    //   setAuth(true);
-    // } else {
-    //   alert("Вы ввели не правильный логин или пароль");
-    // }
+    if (response.status)
+      if (formData.login == "admin" && formData.password == "12345") {
+        setAuth(true);
+      } else {
+        alert("Вы ввели не правильный логин или пароль");
+      }
   }
 
   async function f() {

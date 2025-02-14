@@ -448,6 +448,33 @@ export function ContetnTabs({
                               </div>
                             );
                           }
+                          case "videoMP4": {
+                            let width = 0;
+                            let height = 0;
+
+                            if (windowWidth >= 320 && windowWidth < 480) {
+                              width = 300;
+                              height = 400;
+                            } else if (windowWidth >= 480 && windowWidth < 768) {
+                              width = 400;
+                              height = 530;
+                            } else if (windowWidth >= 768 && windowWidth < 993) {
+                              width = 700;
+                              height = 700;
+                            } else if (windowWidth >= 993 && windowWidth < 1200) {
+                              width = 990;
+                              height = 750;
+                            } else {
+                              width = 1180;
+                              height = 800;
+                            }
+
+                            return (
+                              <video width={width} height={height} controls>
+                                <source src={url + car.link} type={"video/mp4"} />
+                              </video>
+                            );
+                          }
                         }
                       })}
                     </div>
