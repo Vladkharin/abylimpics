@@ -471,7 +471,7 @@ export function ContetnTabs({
 
                             return (
                               <video width={width} height={height} controls>
-                                <source src={url + car.link} type={"video/mp4"} />
+                                <source src={"./docs/" + car.link} type={"video/mp4"} />
                               </video>
                             );
                           }

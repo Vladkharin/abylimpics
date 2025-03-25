@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./News.module.css";
-import { CONTENT, DATA, voiceHelper } from "../../../App";
+import { CONTENT, DATA, SUBTITLE, voiceHelper } from "../../../App";
 import { Link } from "react-router-dom";
 
 export function News({ data, voiceHelperState }: { data: DATA; voiceHelperState: boolean }) {
@@ -37,6 +37,19 @@ export function News({ data, voiceHelperState }: { data: DATA; voiceHelperState:
     return dateB.getTime() - dateA.getTime();
   }
 
+  function videoOrImg(img: string, video: SUBTITLE | undefined, item: CONTENT) {
+    if (video) {
+      return (
+        <video style={{ width: "100%", height: "500px" }} controls={true}>
+          {" "}
+          <source src={"./docs/" + video.link} type={"video/mp4"} />
+        </video>
+      );
+    } else if (img) {
+      return <img onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} src={"./docs/" + img} alt={`Фото ${item.news?.title}`} />;
+    }
+  }
+
   useEffect(() => {
     setDataNews(createNewsArray());
   }, []);
@@ -44,23 +57,18 @@ export function News({ data, voiceHelperState }: { data: DATA; voiceHelperState:
     return (
       <div className={styles.wrapper}>
         {dataNews.map((item, index) => {
-          const subtitle = item.news?.subtitle?.filter((item) => item.type === "scroller");
+          const imgs = item.news?.subtitle?.filter((item) => item.type === "scroller");
+          const video: SUBTITLE | undefined = (item.news?.subtitle?.filter((item) => item.type === "videoMP4")[0] as SUBTITLE) ?? undefined;
           let img = "";
 
-          console.log(subtitle);
-
-          if (subtitle?.length != 0 && subtitle) {
-            img = subtitle[0].links?.filter((_car, index) => index == 0)[0] as string;
+          if (imgs?.length != 0 && imgs) {
+            img = imgs[0].links?.filter((_car, index) => index == 0)[0] as string;
           }
           return (
             <React.Fragment key={index}>
               <div className={styles.tile}>
-                <div style={{ flexBasis: img == "" ? "0%" : "50%", display: img == "" ? "none" : "block" }}>
-                  <img
-                    onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}
-                    src={"./docs/" + img}
-                    alt={`Фото ${item.news?.title}`}
-                  />
+                <div style={{ flexBasis: img == "" && item.link ? "0%" : "50%", display: img == "" && item.link ? "none" : "block" }}>
+                  {videoOrImg(img, video, item)}
                 </div>
                 <div className={styles.texts}>
                   <div onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} className={styles.date}>

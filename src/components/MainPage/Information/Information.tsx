@@ -22,7 +22,7 @@ export function Information({ certificates, voiceHelperState }: { certificates: 
     <section>
       <div className={styles.container}>
         <h1 className={styles.h1} onMouseEnter={(event) => voiceHelper(event, voiceHelperState)}>
-          Мечтай! Действуй! Побеждай! <br /> Прими участие в чемпионате «Абилимпикс»
+          Нет предела - действуй смело!
         </h1>
         <h2 onMouseEnter={(event) => voiceHelper(event, voiceHelperState)} className={styles.h2}>
           Приветствуем вас на сайте регионального центра развития <br /> движения «Абилимпикс» в Оренбургской области.
